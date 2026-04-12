@@ -1,0 +1,44 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    environment:
+#      MYSQL_ROOT_PASSWORD: 0000
+      MYSQL_DATABASE: robot_arm_db
+      MYSQL_USER: your_user
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: spring_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/robot_arm_db
+      SPRING_DATASOURCE_USERNAME: root
+#      SPRING_DATASOURCE_PASSWORD: 0000
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  frontend:
+    build: C:\Users\hlehl\Desktop\mode manuelle\robotarm_angular
+    container_name: angular_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+volumes:
+  mysql_data:
