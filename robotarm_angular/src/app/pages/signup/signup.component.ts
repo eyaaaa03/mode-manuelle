@@ -20,10 +20,10 @@ const BLOCKED_DOMAINS = new Set([
   styles: [`
     :host { display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden; padding:2rem 0; }
 
-    .back-link { position:fixed; top:1.5rem; left:1.5rem; font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; color:rgba(200,230,227,0.4); text-decoration:none; z-index:100; transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
+    .back-link { position:fixed; top:1.5rem; left:1.5rem; font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; color:rgba(31,41,55,0.5); text-decoration:none; z-index:100; transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; }
     .back-link:hover { color:var(--neon); }
 
-    .signup-wrapper { position:relative; z-index:10; width:520px; max-width:95vw; border:1px solid var(--border); background:rgba(2,8,18,0.95); backdrop-filter:blur(20px); padding:3rem; box-shadow:0 0 60px rgba(0,255,231,0.06); animation:slideIn 0.6s ease both; }
+    .signup-wrapper { position:relative; z-index:10; width:520px; max-width:95vw; border:1px solid var(--border); background:rgba(255,255,255,0.98); backdrop-filter:blur(20px); padding:3rem; box-shadow:0 0 60px rgba(30,64,175,0.1); animation:slideIn 0.6s ease both; }
     .corner { position:absolute; width:16px; height:16px; border-color:var(--neon2); border-style:solid; opacity:0.5; }
     .corner-tl { top:0; left:0;  border-width:2px 0 0 2px; }
     .corner-tr { top:0; right:0; border-width:2px 2px 0 0; }
@@ -33,24 +33,24 @@ const BLOCKED_DOMAINS = new Set([
     .form-logo { font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900; color:var(--neon); letter-spacing:3px; margin-bottom:0.5rem; }
     .form-logo span { color:var(--neon2); }
     .form-header { margin-bottom:2rem; }
-    .form-header h2 { font-family:'Orbitron',monospace; font-size:1.2rem; color:#fff; margin-bottom:0.4rem; }
-    .form-header p { font-size:0.8rem; color:rgba(200,230,227,0.35); letter-spacing:2px; text-transform:uppercase; }
+    .form-header h2 { font-family:'Orbitron',monospace; font-size:1.2rem; color:#1F2937; margin-bottom:0.4rem; }
+    .form-header p { font-size:0.8rem; color:rgba(31,41,55,0.6); letter-spacing:2px; text-transform:uppercase; }
 
     .progress-bar { display:flex; gap:4px; margin-bottom:2rem; }
-    .progress-step { flex:1; height:3px; background:rgba(0,255,231,0.15); border-radius:2px; transition:background 0.4s; }
+    .progress-step { flex:1; height:3px; background:rgba(30,64,175,0.15); border-radius:2px; transition:background 0.4s; }
     .progress-step.active { background:var(--neon); box-shadow:0 0 8px var(--neon); }
-    .progress-step.done   { background:rgba(0,255,231,0.5); }
+    .progress-step.done   { background:rgba(30,64,175,0.5); }
 
     .form-group { margin-bottom:1.3rem; }
     .form-row   { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-    .form-group label { display:block; font-size:0.68rem; letter-spacing:3px; text-transform:uppercase; color:var(--neon); margin-bottom:0.5rem; opacity:0.8; }
+    .form-group label { display:block; font-size:0.68rem; letter-spacing:3px; text-transform:uppercase; color:var(--neon); margin-bottom:0.5rem; opacity:0.9;}
     .input-wrap { position:relative; }
-    .input-wrap input { width:100%; background:rgba(0,255,231,0.03); border:1px solid rgba(0,255,231,0.2); color:#fff; padding:0.8rem 2rem 0.8rem 2.6rem; font-family:'Rajdhani',sans-serif; font-size:0.95rem; letter-spacing:1px; outline:none; transition:all 0.3s; border-radius:2px; }
-    .input-wrap input:focus { border-color:var(--neon); background:rgba(0,255,231,0.06); box-shadow:0 0 15px rgba(0,255,231,0.08); }
+    .input-wrap input { width:100%; background:rgba(30,64,175,0.03); border:1px solid rgba(30,64,175,0.2); color:#fff; padding:0.8rem 2rem 0.8rem 2.6rem; font-family:'Rajdhani',sans-serif; font-size:0.95rem; letter-spacing:1px; outline:none; transition:all 0.3s; border-radius:2px; }
+    .input-wrap input:focus { border-color:var(--neon); background:rgba(30,64,175,0.06); box-shadow:0 0 15px rgba(30,64,175,0.08); }
     .input-wrap input.valid   { border-color:rgba(0,255,150,0.5); }
     .input-wrap input.invalid { border-color:rgba(255,80,80,0.5); }
-    .input-wrap input::placeholder { color:rgba(200,230,227,0.2); }
-    .input-icon  { position:absolute; left:0.8rem;  top:50%; transform:translateY(-50%); color:rgba(0,255,231,0.35); font-size:0.9rem; pointer-events:none; }
+    .input-wrap input::placeholder { color:rgba(31,41,55,0.4); }
+    .input-icon  { position:absolute; left:0.8rem;  top:50%; transform:translateY(-50%); color:rgba(30,64,175,0.35); font-size:0.9rem; pointer-events:none; }
     .input-check { position:absolute; right:0.8rem; top:50%; transform:translateY(-50%); font-size:0.8rem; }
 
     /* ── Email hint row ─────────────────────────────────────────── */
@@ -62,15 +62,15 @@ const BLOCKED_DOMAINS = new Set([
       font-size: 0.72rem;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      border: 1px solid rgba(255,80,80,0.3);
-      background: rgba(255,80,80,0.06);
-      color: #ff8080;
+      border: 1px solid rgba(220,38,38,0.3);
+      background: rgba(220,38,38,0.08);
+      color: #DC2626;
       animation: alertIn 0.25s ease;
     }
     .email-hint.hint-ok {
-      border-color: rgba(0,255,150,0.3);
-      background: rgba(0,255,150,0.05);
-      color: #00ff96;
+      border-color: rgba(34,197,94,0.3);
+      background: rgba(34,197,94,0.08);
+      color: #22C55E;
     }
     .hint-icon { font-size: 0.75rem; flex-shrink: 0; }
 
@@ -88,22 +88,22 @@ const BLOCKED_DOMAINS = new Set([
       border-radius: 2px;
       font-family: 'Share Tech Mono', monospace;
     }
-    .chip-local  { background: rgba(0,255,231,0.08); border: 1px solid rgba(0,255,231,0.2); color: var(--neon); }
-    .chip-at     { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); color: #a855f7; }
-    .chip-domain { background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); color: var(--neon2); }
-    .chip-dot    { background: rgba(200,230,227,0.04); border: 1px solid rgba(200,230,227,0.12); color: rgba(200,230,227,0.5); }
-    .chip-tld    { background: rgba(0,255,150,0.08); border: 1px solid rgba(0,255,150,0.2); color: #00ff96; }
+    .chip-local  { background: rgba(30,64,175,0.1); border: 1px solid rgba(30,64,175,0.3); color: var(--neon); }
+    .chip-at     { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); color: #a855f7; }
+    .chip-domain { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: var(--neon2); }
+    .chip-dot    { background: rgba(31,41,55,0.08); border: 1px solid rgba(31,41,55,0.2); color: rgba(31,41,55,0.5); }
+    .chip-tld    { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #22C55E; }
 
     .strength-bar  { margin-top:0.4rem; height:3px; background:rgba(255,255,255,0.1); border-radius:2px; overflow:hidden; }
     .strength-fill { height:100%; border-radius:2px; transition:width 0.3s,background 0.3s; }
-    .strength-text { font-size:0.65rem; letter-spacing:2px; margin-top:0.3rem; text-transform:uppercase; }
+    .strength-text { font-size:0.65rem; letter-spacing:2px; margin-top:0.3rem; text-transform:uppercase; color:rgba(31,41,55,0.6); }
 
     .btn-submit { width:100%; padding:1rem; background:var(--neon2); border:none; color:#fff; font-family:'Orbitron',monospace; font-size:0.82rem; font-weight:700; letter-spacing:3px; cursor:pointer; transition:all 0.3s; border-radius:2px; margin-top:0.5rem; }
     .btn-submit:hover { background:#e55a28; box-shadow:0 0 30px rgba(255,107,53,0.4); }
     .btn-submit:active { transform:scale(0.98); }
     .btn-submit:disabled { opacity:0.5; cursor:not-allowed; }
 
-    .form-footer { text-align:center; margin-top:1.5rem; font-size:0.85rem; color:rgba(200,230,227,0.35); }
+    .form-footer { text-align:center; margin-top:1.5rem; font-size:0.85rem; color:rgba(5, 5, 5, 0.35); }
     .form-footer a { color:var(--neon); }
     .divider { height:1px; background:var(--border); margin:1.5rem 0; position:relative; }
     .divider span { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:var(--bg); padding:0 0.8rem; font-size:0.7rem; letter-spacing:3px; color:rgba(200,230,227,0.3); text-transform:uppercase; }

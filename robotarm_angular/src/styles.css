@@ -1,12 +1,12 @@
 /* ─── Global Reset & Variables ─────────────────────────────── */
 :root {
-  --neon: #00ffe7;
-  --neon2: #ff6b35;
-  --neon3: #a855f7;
-  --bg: #020812;
-  --panel: rgba(0,255,231,0.04);
-  --border: rgba(0,255,231,0.15);
-  --text: #c8e6e3;
+  --neon: #1E40AF;
+  --neon2: #DC2626;
+  --neon3: #FFFFFF;
+  --bg: #ebf3fc;
+  --panel: rgba(30,64,175,0.06);
+  --border: rgba(30,64,175,0.25);
+  --text: #1F2937;
   --danger: #ff4444;
 }
 
@@ -27,8 +27,8 @@ body::before {
   content: '';
   position: fixed; inset: 0;
   background-image:
-    linear-gradient(rgba(0,255,231,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,231,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(30,64,175,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,64,175,0.05) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: gridMove 20s linear infinite;
   z-index: 0;
@@ -53,14 +53,14 @@ body::before {
   position: fixed;
   border-radius: 50%;
   filter: blur(80px);
-  opacity: 0.12;
+  opacity: 0.05;
   z-index: 0;
   animation: pulse 8s ease-in-out infinite;
   pointer-events: none;
 }
 .orb1 { width: 500px; height: 500px; background: var(--neon); top: -100px; left: -100px; animation-delay: 0s; }
 .orb2 { width: 400px; height: 400px; background: var(--neon2); bottom: -100px; right: -100px; animation-delay: 4s; }
-@keyframes pulse { 0%, 100% { opacity: 0.08 } 50% { opacity: 0.18 } }
+@keyframes pulse { 0%, 100% { opacity: 0.03 } 90% { opacity: 0.08 } }
 
 /* ─── Shared Buttons ────────────────────────────────────────── */
 .btn {
@@ -83,18 +83,18 @@ body::before {
   color: var(--neon);
 }
 .btn-outline:hover {
-  background: rgba(0,255,231,0.1);
-  box-shadow: 0 0 20px rgba(0,255,231,0.3);
+  background: rgba(30,64,175,0.1);
+  box-shadow: 0 0 20px rgba(30,64,175,0.3);
 }
 .btn-primary {
   background: var(--neon);
   border: 1px solid var(--neon);
-  color: var(--bg);
+  color: #FFFFFF;
 }
 .btn-primary:hover {
   background: transparent;
   color: var(--neon);
-  box-shadow: 0 0 30px rgba(0,255,231,0.5);
+  box-shadow: 0 0 30px rgba(30,64,175,0.5);
 }
 
 /* ─── Shared Alert ──────────────────────────────────────────── */
@@ -106,8 +106,8 @@ body::before {
   letter-spacing: 1px;
   animation: alertIn 0.3s ease;
 }
-.alert-error  { border: 1px solid rgba(255,80,80,0.5);  background: rgba(255,80,80,0.08);  color: #ff8080; }
-.alert-success{ border: 1px solid rgba(0,255,150,0.5);  background: rgba(0,255,150,0.08);  color: #00ff96; }
+.alert-error  { border: 1px solid rgba(255,80,80,0.5);  background: rgba(255,80,80,0.1);  color: #DC2626; }
+.alert-success{ border: 1px solid rgba(0,200,100,0.5);  background: rgba(0,200,100,0.1);  color: #059669; }
 @keyframes alertIn { from { opacity:0; transform:translateY(-5px) } to { opacity:1; transform:translateY(0) } }
 
 /* ─── Animations ────────────────────────────────────────────── */

@@ -30,14 +30,15 @@ interface InspectionEvent {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0.8rem 2rem;
-      background: rgba(2,8,18,0.92); backdrop-filter: blur(20px);
+      background: #ebf3fc; backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
     .nav-left  { display: flex; align-items: center; gap: 2rem; }
-    .logo      { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.2rem; color: var(--neon); letter-spacing: 4px; text-shadow: 0 0 15px var(--neon); }
+    .nav-logo { height:40px; width:auto; }
+    .logo      { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.2rem; color: var(--neon); letter-spacing: 4px; text-shadow: none; }
     .logo span { color: var(--neon2); }
     .nav-tabs  { display: flex; gap: 4px; }
-    .nav-tab   { padding: 0.35rem 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: rgba(200,230,227,0.4); cursor: pointer; transition: all 0.2s; }
+    .nav-tab   { padding: 0.35rem 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: rgba(67, 71, 90, 0.77); cursor: pointer; transition: all 0.2s; }
     .nav-tab:hover  { color: var(--neon); border-color: rgba(0,255,231,0.3); }
     .nav-tab.active { color: var(--neon); border-color: var(--neon); background: rgba(0,255,231,0.06); }
     .nav-status { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
@@ -45,9 +46,9 @@ interface InspectionEvent {
     .status-online  { background: var(--neon);   color: var(--neon); }
     .status-scanning{ background: #a855f7;        color: #a855f7; }
     .status-offline { background: var(--danger);  color: var(--danger); }
-    .status-label   { color: rgba(200,230,227,0.5); }
+    .status-label   { color: rgba(31,41,55,0.6); }
     .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-    .clock     { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: rgba(200,230,227,0.3); }
+    .clock     { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: rgba(31,41,55,0.5); }
     .user-chip { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1rem; border: 1px solid var(--border); background: var(--panel); font-size: 0.8rem; letter-spacing: 1px; color: var(--text); }
     .user-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--neon), #a855f7); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--bg); }
     .logout-btn { padding: 0.4rem 1rem; border: 1px solid rgba(255,68,68,0.3); background: rgba(255,68,68,0.05); color: rgba(255,130,130,0.7); font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
@@ -124,11 +125,11 @@ interface InspectionEvent {
     }
     .result-icon { font-size: 2rem; line-height: 1; }
     .result-text { flex: 1; }
-    .result-label { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 2px; color: rgba(200,230,227,0.35); }
+    .result-label { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); }
     .result-value { font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; margin-top: 2px; }
     .result-value.ok      { color: var(--neon);   text-shadow: 0 0 12px rgba(0,255,231,0.5); }
     .result-value.defect  { color: var(--danger); text-shadow: 0 0 12px rgba(255,68,68,0.5); }
-    .result-value.pending { color: rgba(200,230,227,0.3); }
+    .result-value.pending { color:  rgba(11, 39, 36, 0.95); }
     .result-confidence    { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: rgba(200,230,227,0.35); }
     .conf-bar { height: 3px; background: rgba(0,255,231,0.1); margin-top: 4px; border-radius: 2px; overflow: hidden; }
     .conf-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
@@ -148,7 +149,7 @@ interface InspectionEvent {
     .cam-snap  { background: transparent; border: 1px solid #a855f7; color: #a855f7; }
     .cam-snap:hover { background: rgba(168,85,247,0.1); }
     .cam-auto  {
-      background: transparent; border: 1px solid rgba(0,255,231,0.3); color: rgba(200,230,227,0.6);
+      background: transparent; border: 1px solid rgba(0,255,231,0.3); color: rgba(57, 100, 96, 0.8);
       font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; padding: 0.55rem 1rem;
     }
     .cam-auto.armed { border-color: var(--neon2); color: var(--neon2); background: rgba(255,107,53,0.07); box-shadow: 0 0 10px rgba(255,107,53,0.2); }
@@ -157,14 +158,14 @@ interface InspectionEvent {
     .stats-panel { grid-column: 2; grid-row: 1; }
     .stat-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 1.2rem; }
     .stat-cell   { background: var(--bg); padding: 0.9rem 1rem; }
-    .stat-label  { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,230,227,0.3); margin-bottom: 3px; }
+    .stat-label  { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(11, 39, 36, 0.95); margin-bottom: 3px; }
     .stat-value  { font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; color: var(--neon); }
     .stat-value.defect-count { color: var(--danger); text-shadow: 0 0 10px rgba(255,68,68,0.4); }
     .stat-value.pick-count   { color: #a855f7; text-shadow: 0 0 10px rgba(168,85,247,0.4); }
 
     /* Defect rate gauge */
     .gauge-wrap { margin-bottom: 1.4rem; }
-    .gauge-label { font-size: 0.65rem; letter-spacing: 2px; color: rgba(200,230,227,0.35); margin-bottom: 0.5rem; text-transform: uppercase; }
+    .gauge-label { font-size: 0.65rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); margin-bottom: 0.5rem; text-transform: uppercase; }
     .gauge-track { height: 8px; background: rgba(0,255,231,0.08); border-radius: 4px; overflow: hidden; position: relative; }
     .gauge-fill  { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
     .gauge-fill.low    { background: var(--neon);   box-shadow: 0 0 8px var(--neon); }
@@ -181,11 +182,11 @@ interface InspectionEvent {
     .arm-status-card.error   { border-color: var(--danger); background: rgba(255,68,68,0.06); }
     .arm-status-icon { font-size: 1.8rem; line-height: 1; }
     .arm-status-info { flex: 1; }
-    .arm-status-lbl  { font-size: 0.6rem; letter-spacing: 2px; color: rgba(200,230,227,0.3); text-transform: uppercase; }
+    .arm-status-lbl  { font-size: 0.6rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); text-transform: uppercase; }
     .arm-status-val  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; margin-top: 2px; }
     .arm-status-val.picking { color: var(--neon2); }
     .arm-status-val.picked  { color: var(--neon); }
-    .arm-status-val.idle    { color: rgba(200,230,227,0.4); }
+    .arm-status-val.idle    { color: rgba(11, 39, 36, 0.95); }
     .arm-status-val.error   { color: var(--danger); }
 
     /* Log panel */
@@ -209,7 +210,7 @@ interface InspectionEvent {
     .log-info  { color: rgba(200,230,227,0.55); letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; }
     .log-time  { color: rgba(200,230,227,0.2); font-size: 0.62rem; font-family: 'Share Tech Mono', monospace; }
     .log-pick  { font-size: 0.7rem; }
-    .log-empty { font-size: 0.75rem; color: rgba(200,230,227,0.2); letter-spacing: 2px; text-align: center; padding: 1.5rem; font-family: 'Share Tech Mono', monospace; }
+    .log-empty { font-size: 0.75rem; color: rgba(11, 39, 36, 0.95); letter-spacing: 2px; text-align: center; padding: 1.5rem; font-family: 'Share Tech Mono', monospace; }
 
     /* Toast */
     .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 0.8rem 1.5rem; background: rgba(2,8,18,0.95); border: 1px solid var(--neon); color: var(--neon); font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 2px; z-index: 1000; transform: translateX(120%); transition: transform 0.4s ease; box-shadow: 0 0 20px rgba(0,255,231,0.2); }
@@ -229,6 +230,7 @@ interface InspectionEvent {
     <!-- NAV -->
     <nav>
       <div class="nav-left">
+        <img src="assets/icons/logo.png" alt="Starz Electronics" class="nav-logo">
         <div class="logo">ROBOT<span>ARM</span></div>
         <div class="nav-tabs">
           <button class="nav-tab" (click)="goToDashboard()">⬤ CONTROL</button>
