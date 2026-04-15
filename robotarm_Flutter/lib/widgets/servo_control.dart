@@ -18,7 +18,7 @@ class ServoControlPanel extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          right: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.12)),
+          right: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.12)),
         ),
       ),
       child: Column(
@@ -33,7 +33,7 @@ class ServoControlPanel extends StatelessWidget {
             min: 0,
             max: 180,
             onChanged: (val) => robotProvider.updateServo('base', val),
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
           ),
           const SizedBox(height: 24),
           _buildServoControl(
@@ -43,7 +43,7 @@ class ServoControlPanel extends StatelessWidget {
             min: 0,
             max: 180,
             onChanged: (val) => robotProvider.updateServo('shoulder', val),
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
           ),
           const SizedBox(height: 24),
           _buildServoControl(
@@ -53,7 +53,7 @@ class ServoControlPanel extends StatelessWidget {
             min: 0,
             max: 180,
             onChanged: (val) => robotProvider.updateServo('elbow', val),
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
           ),
           const SizedBox(height: 24),
           _buildServoControl(
@@ -63,7 +63,7 @@ class ServoControlPanel extends StatelessWidget {
             min: 0,
             max: 90,
             onChanged: (val) => robotProvider.updateServo('gripper', val),
-            color: const Color(0xFFFF6B35),
+            color: const Color(0xFFDC2626),
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -72,8 +72,8 @@ class ServoControlPanel extends StatelessWidget {
               onPressed: robotProvider.isSending ? null : onSendCommand,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: const Color(0xFF00FFE7),
-                foregroundColor: const Color(0xFF020812),
+                backgroundColor: const Color(0xFF1E40AF),
+                foregroundColor: const Color(0xFFEBF3FC),
               ),
               child: robotProvider.isSending
                   ? const SizedBox(
@@ -99,13 +99,13 @@ class ServoControlPanel extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: robotProvider.resetArm,
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: const Color(0xFFFF6B35)),
+                    side: BorderSide(color: const Color(0xFFDC2626)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: const Text(
                     '↺ RESET HOME',
                     style: TextStyle(
-                      color: Color(0xFFFF6B35),
+                      color: Color(0xFFDC2626),
                       fontSize: 11,
                       letterSpacing: 2,
                     ),
@@ -148,7 +148,7 @@ class ServoControlPanel extends StatelessWidget {
           style: const TextStyle(
             fontSize: 10,
             letterSpacing: 3,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -159,7 +159,7 @@ class ServoControlPanel extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF00FFE7).withOpacity(0.3),
+                  const Color(0xFF1E40AF).withOpacity(0.3),
                   Colors.transparent,
                 ],
               ),
@@ -201,7 +201,7 @@ class ServoControlPanel extends StatelessWidget {
                   subtitle,
                   style: const TextStyle(
                     fontSize: 10,
-                    color: Color(0xFFC8E6E3),
+                    color: Color(0x991F2937),
                   ),
                 ),
               ],
@@ -228,9 +228,9 @@ class ServoControlPanel extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('${min}°', style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3))),
-            Text('${(min + max) ~/ 2}°', style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3))),
-            Text('${max}°', style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3))),
+            Text('${min}°', style: const TextStyle(fontSize: 10, color: Color(0x991F2937))),
+            Text('${(min + max) ~/ 2}°', style: const TextStyle(fontSize: 10, color: Color(0x991F2937))),
+            Text('${max}°', style: const TextStyle(fontSize: 10, color: Color(0x991F2937))),
           ],
         ),
         const SizedBox(height: 8),
@@ -255,14 +255,14 @@ class ServoControlPanel extends StatelessWidget {
           onPressed: onPressed,
           style: TextButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 6),
-            backgroundColor: const Color(0xFF00FFE7).withOpacity(0.05),
+            backgroundColor: const Color(0xFF1E40AF).withOpacity(0.05),
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+              side: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.15)),
             ),
           ),
           child: Text(
             label,
-            style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3)),
+            style: const TextStyle(fontSize: 10, color: Color(0x991F2937)),
           ),
         ),
       ),
@@ -274,21 +274,21 @@ class ServoControlPanel extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF020812),
-        title: const Text('Save Preset', style: TextStyle(color: Color(0xFF00FFE7))),
+        backgroundColor: const Color(0xFFEBF3FC),
+        title: const Text('Save Preset', style: TextStyle(color: Color(0xFF1E40AF))),
         content: TextField(
           controller: controller,
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
             hintText: 'Enter preset name',
-            hintStyle: TextStyle(color: Color(0xFFC8E6E3)),
+            hintStyle: TextStyle(color: Color(0x991F2937)),
             border: OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Color(0xFFC8E6E3))),
+            child: const Text('Cancel', style: TextStyle(color: Color(0x991F2937))),
           ),
           ElevatedButton(
             onPressed: () {

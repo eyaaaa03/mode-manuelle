@@ -51,7 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFF020812), Color(0xFF0A1A2A)],
+            colors: [
+              Color(0xFFEBF3FC),
+              Color(0xFFEBF3FC),
+              Color(0xFFEBF3FC),
+            ],
           ),
         ),
         child: SafeArea(
@@ -61,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(
                 padding: const EdgeInsets.all(32),
                 decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
-                  color: const Color(0xFF020812).withOpacity(0.9),
+                  border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
+                  color: Colors.white.withOpacity(0.9),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -73,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontFamily: 'Orbitron',
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF00FFE7),
+                        color: Color(0xFF1E40AF),
                         letterSpacing: 3,
                       ),
                     ),
@@ -83,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(
                         fontFamily: 'Orbitron',
                         fontSize: 18,
-                        color: Colors.white,
+                        color: Color(0x991F2937),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -96,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 8,
                           height: 8,
                           decoration: const BoxDecoration(
-                            color: Color(0xFF00FFE7),
+                            color: Color(0xFF1E40AF),
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -106,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                             fontSize: 10,
                             letterSpacing: 2,
-                            color: Color(0xFF00FFE7),
+                            color: Color(0xFF1E40AF),
                           ),
                         ),
                       ],
@@ -146,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: const Color(0xFF00FFE7).withOpacity(0.5),
+                          color: const Color(0xFF1E40AF).withOpacity(0.5),
                           size: 20,
                         ),
                         onPressed: () {
@@ -165,27 +169,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: authProvider.isLoading ? null : _handleLogin,
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: const Color(0xFF00FFE7),
-                              foregroundColor: const Color(0xFF020812),
+                              backgroundColor: const Color(0xFF1E40AF),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                             ),
                             child: authProvider.isLoading
                                 ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF020812)),
-                              ),
-                            )
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                    ),
+                                  )
                                 : const Text(
-                              'INITIALIZE SESSION',
-                              style: TextStyle(
-                                fontFamily: 'Orbitron',
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 2,
-                              ),
-                            ),
+                                    'INITIALIZE SESSION',
+                                    style: TextStyle(
+                                      fontFamily: 'Orbitron',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 2,
+                                    ),
+                                  ),
                           ),
                         );
                       },
@@ -198,13 +205,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         const Text(
                           'No operator account?',
-                          style: TextStyle(color: Color(0xFFC8E6E3), fontSize: 12),
+                          style: TextStyle(color: Color(0x991F2937), fontSize: 12),
                         ),
                         TextButton(
                           onPressed: () => Navigator.pushNamed(context, '/signup'),
                           child: const Text(
                             'REQUEST ACCESS',
-                            style: TextStyle(color: Color(0xFF00FFE7), fontSize: 12),
+                            style: TextStyle(color: Color(0xFF1E40AF), fontSize: 12),
                           ),
                         ),
                       ],
@@ -235,28 +242,28 @@ class _LoginScreenState extends State<LoginScreen> {
           style: const TextStyle(
             fontSize: 10,
             letterSpacing: 3,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
           ),
         ),
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.2)),
+            border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.2)),
           ),
           child: Row(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(icon, style: const TextStyle(color: Color(0xFF00FFE7))),
+                child: Text(icon, style: const TextStyle(color: Color(0xFF1E40AF))),
               ),
               Expanded(
                 child: TextField(
                   controller: controller,
                   obscureText: obscureText,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Color(0x991F2937)),
                   decoration: InputDecoration(
                     hintText: placeholder,
-                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                    hintStyle: TextStyle(color: const Color(0x991F2937).withOpacity(0.4)),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(vertical: 14),
                     suffixIcon: suffixIcon,

@@ -336,11 +336,11 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
   Color _resultColor(InspectionResult r) {
     switch (r) {
       case InspectionResult.ok:
-        return const Color(0xFF00FFE7);
+        return const Color(0xFF1E40AF);
       case InspectionResult.defect:
         return const Color(0xFFFF4444);
       default:
-        return Colors.white38;
+        return const Color(0x991F2937).withOpacity(0.4);
     }
   }
 
@@ -350,7 +350,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
   Color _gaugeColor(double rate) {
     if (rate >= 50) return const Color(0xFFFF4444);
     if (rate >= 20) return const Color(0xFFF0A500);
-    return const Color(0xFF00FFE7);
+    return const Color(0xFF1E40AF);
   }
 
   // ---------------------------------------------------------------------------
@@ -359,7 +359,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF020812),
+      backgroundColor: const Color(0xFFEBF3FC),
       body: Stack(
         children: [
           Column(
@@ -416,11 +416,11 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20, vertical: 12),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF020812).withOpacity(0.95),
+                    color: const Color(0xFFEBF3FC).withOpacity(0.95),
                     border: Border.all(
                       color: _toastError
                           ? const Color(0xFFFF4444)
-                          : const Color(0xFF00FFE7),
+                          : const Color(0xFF1E40AF),
                     ),
                     borderRadius: BorderRadius.circular(4),
                   ),
@@ -432,7 +432,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                       letterSpacing: 2,
                       color: _toastError
                           ? const Color(0xFFFF4444)
-                          : const Color(0xFF00FFE7),
+                          : const Color(0xFF1E40AF),
                     ),
                   ),
                 ),
@@ -450,10 +450,10 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF020812).withOpacity(0.95),
+        color: const Color(0xFFEBF3FC).withOpacity(0.95),
         border: Border(
           bottom: BorderSide(
-            color: const Color(0xFF00FFE7).withOpacity(0.3),
+            color: const Color(0xFF1E40AF).withOpacity(0.3),
             width: 1,
           ),
         ),
@@ -467,7 +467,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF00FFE7))),
+                        color: Color(0xFF1E40AF))),
                 const SizedBox(width: 8),
                 Container(
                   width: 8,
@@ -476,7 +476,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                     color: _camActive
                         ? (_isScanning
                             ? const Color(0xFFA855F7)
-                            : const Color(0xFF00FFE7))
+                            : const Color(0xFF1E40AF))
                         : const Color(0xFFFF4444),
                     shape: BoxShape.circle,
                   ),
@@ -487,13 +487,13 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                   height: 32,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
-                        colors: [Color(0xFF00FFE7), Color(0xFFA855F7)]),
+                        colors: [Color(0xFF1E40AF), Color(0xFFA855F7)]),
                     shape: BoxShape.circle,
                   ),
                   child: Center(
                     child: Text(_userInitial,
                         style: const TextStyle(
-                            color: Color(0xFF020812),
+                            color: Color(0xFFEBF3FC),
                             fontWeight: FontWeight.bold)),
                   ),
                 ),
@@ -513,14 +513,14 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF00FFE7))),
+                        color: Color(0xFF1E40AF))),
                 const SizedBox(width: 12),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color(0xFF00FFE7).withOpacity(0.4)),
+                        color: const Color(0xFF1E40AF).withOpacity(0.4)),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Row(
@@ -532,7 +532,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                           color: _camActive
                               ? (_isScanning
                                   ? const Color(0xFFA855F7)
-                                  : const Color(0xFF00FFE7))
+                                  : const Color(0xFF1E40AF))
                               : const Color(0xFFFF4444),
                           shape: BoxShape.circle,
                         ),
@@ -543,7 +543,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                             ? (_isScanning ? 'SCANNING' : 'CAM LIVE')
                             : 'OFFLINE',
                         style: const TextStyle(
-                            fontSize: 9, color: Color(0xFF00FFE7)),
+                            fontSize: 9, color: Color(0xFF1E40AF)),
                       ),
                     ],
                   ),
@@ -551,14 +551,14 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                 const Spacer(),
                 Text(_currentTime.substring(0, 5),
                     style:
-                        const TextStyle(fontSize: 11, color: Color(0xFFC8E6E3))),
+                        const TextStyle(fontSize: 11, color: Color(0x991F2937))),
                 const SizedBox(width: 12),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color(0xFF00FFE7).withOpacity(0.2)),
+                        color: const Color(0xFF1E40AF).withOpacity(0.2)),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
@@ -568,13 +568,13 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                         height: 24,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
-                              colors: [Color(0xFF00FFE7), Color(0xFFA855F7)]),
+                              colors: [Color(0xFF1E40AF), Color(0xFFA855F7)]),
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: Text(_userInitial,
                               style: const TextStyle(
-                                  color: Color(0xFF020812),
+                                  color: Color(0xFFEBF3FC),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 10)),
                         ),
@@ -582,7 +582,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                       const SizedBox(width: 6),
                       Text(_userName.split(' ').first,
                           style: const TextStyle(
-                              fontSize: 10, color: Color(0xFFC8E6E3))),
+                              fontSize: 10, color: Color(0x991F2937))),
                     ],
                   ),
                 ),
@@ -601,14 +601,14 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF00FFE7),
+                      color: Color(0xFF1E40AF),
                       letterSpacing: 2)),
               const SizedBox(width: 16),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: const Color(0xFF00FFE7).withOpacity(0.4)),
+                      color: const Color(0xFF1E40AF).withOpacity(0.4)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -620,7 +620,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                         color: _camActive
                             ? (_isScanning
                                 ? const Color(0xFFA855F7)
-                                : const Color(0xFF00FFE7))
+                                : const Color(0xFF1E40AF))
                             : const Color(0xFFFF4444),
                         shape: BoxShape.circle,
                       ),
@@ -632,7 +632,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                           : 'CAM OFFLINE',
                       style: const TextStyle(
                           fontSize: 10,
-                          color: Color(0xFF00FFE7),
+                          color: Color(0xFF1E40AF),
                           letterSpacing: 1),
                     ),
                   ],
@@ -641,14 +641,14 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
               const Spacer(),
               Text(_currentTime,
                   style:
-                      const TextStyle(fontSize: 12, color: Color(0xFFC8E6E3))),
+                      const TextStyle(fontSize: 12, color: Color(0x991F2937))),
               const SizedBox(width: 16),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: const Color(0xFF00FFE7).withOpacity(0.2)),
+                      color: const Color(0xFF1E40AF).withOpacity(0.2)),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -658,13 +658,13 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                       height: 32,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
-                            colors: [Color(0xFF00FFE7), Color(0xFFFF6B35)]),
+                            colors: [Color(0xFF1E40AF), Color(0xFFDC2626)]),
                         shape: BoxShape.circle,
                       ),
                       child: Center(
                         child: Text(_userInitial,
                             style: const TextStyle(
-                                color: Color(0xFF020812),
+                                color: Color(0xFFEBF3FC),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14)),
                       ),
@@ -672,7 +672,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                     const SizedBox(width: 8),
                     Text(_userName,
                         style: const TextStyle(
-                            fontSize: 11, color: Color(0xFFC8E6E3))),
+                            fontSize: 11, color: Color(0x991F2937))),
                   ],
                 ),
               ),
@@ -707,7 +707,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -717,7 +717,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
               style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 3,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           // Camera preview with overlay
@@ -726,7 +726,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: const Color(0xFF00FFE7).withOpacity(0.2)),
+                    color: const Color(0xFF1E40AF).withOpacity(0.2)),
               ),
               child: Stack(
                 children: [
@@ -761,7 +761,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.transparent,
-                                const Color(0xFF00FFE7).withOpacity(0.1),
+                                const Color(0xFF1E40AF).withOpacity(0.1),
                                 Colors.transparent,
                               ],
                               stops: const [0.0, 0.5, 1.0],
@@ -783,14 +783,14 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: _currentResult == InspectionResult.ok
-                                ? const Color(0xFF00FFE7)
+                                ? const Color(0xFF1E40AF)
                                 : const Color(0xFFFF4444),
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
                               color: (_currentResult == InspectionResult.ok
-                                      ? const Color(0xFF00FFE7)
+                                      ? const Color(0xFF1E40AF)
                                       : const Color(0xFFFF4444))
                                   .withOpacity(0.4),
                               blurRadius: 14,
@@ -805,7 +805,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                             margin: const EdgeInsets.only(top: -22, left: -1),
                             decoration: BoxDecoration(
                               color: _currentResult == InspectionResult.ok
-                                  ? const Color(0xFF00FFE7)
+                                  ? const Color(0xFF1E40AF)
                                   : const Color(0xFFFF4444),
                             ),
                             child: Text(
@@ -816,7 +816,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                                 fontSize: 10,
                                 fontFamily: 'ShareTechMono',
                                 color: _currentResult == InspectionResult.ok
-                                    ? const Color(0xFF020812)
+                                    ? const Color(0xFFEBF3FC)
                                     : Colors.white,
                               ),
                             ),
@@ -833,8 +833,8 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.2)),
-              color: const Color(0xFF00FFE7).withOpacity(0.03),
+              border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.2)),
+              color: const Color(0xFF1E40AF).withOpacity(0.03),
             ),
             child: Row(
               children: [
@@ -856,7 +856,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                           style: TextStyle(
                               fontSize: 10,
                               letterSpacing: 2,
-                              color: Colors.white38)),
+                              color: Color(0x991F2937))),
                       Text(_resultText(_currentResult),
                           style: TextStyle(
                               fontSize: 20,
@@ -877,13 +877,13 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                         style: const TextStyle(
                             fontSize: 12,
                             fontFamily: 'ShareTechMono',
-                            color: Colors.white38)),
+                            color: Color(0x991F2937))),
                     const SizedBox(height: 4),
                     Container(
                       width: 80,
                       height: 3,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF00FFE7).withOpacity(0.1),
+                        color: const Color(0xFF1E40AF).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(2),
                       ),
                       child: FractionallySizedBox(
@@ -917,8 +917,10 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                 icon: const Icon(Icons.play_arrow, size: 16),
                 label: const Text('START CAMERA'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00FFE7),
-                  foregroundColor: const Color(0xFF020812),
+                  backgroundColor: const Color(0xFF1E40AF),
+                  foregroundColor: const Color(0xFFEBF3FC),
+                  disabledBackgroundColor: const Color(0xFFEBF3FC).withOpacity(0.5),
+                  disabledForegroundColor: const Color(0x991F2937).withOpacity(0.4),
                 ),
               ),
               OutlinedButton.icon(
@@ -926,8 +928,11 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                 icon: const Icon(Icons.stop, size: 16),
                 label: const Text('STOP'),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFFF4444)),
+                  side: BorderSide(
+                    color: _camActive ? const Color(0xFFFF4444) : const Color(0x991F2937).withOpacity(0.2),
+                  ),
                   foregroundColor: const Color(0xFFFF4444),
+                  disabledForegroundColor: const Color(0x991F2937).withOpacity(0.4),
                 ),
               ),
               OutlinedButton.icon(
@@ -935,8 +940,11 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                 icon: const Icon(Icons.camera_alt, size: 16),
                 label: const Text('SCAN NOW'),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFA855F7)),
+                  side: BorderSide(
+                    color: (_camActive && !_isScanning) ? const Color(0xFFA855F7) : const Color(0x991F2937).withOpacity(0.2),
+                  ),
                   foregroundColor: const Color(0xFFA855F7),
+                  disabledForegroundColor: const Color(0x991F2937).withOpacity(0.4),
                 ),
               ),
               OutlinedButton.icon(
@@ -947,11 +955,12 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
                       color: _autoMode
-                          ? const Color(0xFFFF6B35)
-                          : const Color(0xFF00FFE7).withOpacity(0.3)),
+                          ? const Color(0xFFDC2626)
+                          : const Color(0x991F2937).withOpacity(0.2)),
                   foregroundColor: _autoMode
-                      ? const Color(0xFFFF6B35)
-                      : const Color(0xFFC8E6E3),
+                      ? const Color(0xFFDC2626)
+                      : const Color(0x991F2937),
+                  disabledForegroundColor: const Color(0x991F2937).withOpacity(0.4),
                 ),
               ),
             ],
@@ -962,7 +971,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
   }
 
   List<Widget> _buildCornerBrackets() {
-    const style = TextStyle(color: Color(0xFF00FFE7), fontSize: 20);
+    const style = TextStyle(color: Color(0xFF1E40AF), fontSize: 20);
     return const [
       Positioned(top: 8, left: 8, child: Text('┌', style: style)),
       Positioned(top: 8, right: 8, child: Text('┐', style: style)),
@@ -978,7 +987,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -988,7 +997,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
               style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 3,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           GridView.count(
@@ -1011,12 +1020,12 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
           // Defect rate gauge
           const Text('DEFECT RATE',
               style: TextStyle(
-                  fontSize: 10, letterSpacing: 2, color: Colors.white38)),
+                  fontSize: 10, letterSpacing: 2, color: Color(0x991F2937))),
           const SizedBox(height: 8),
           Container(
             height: 8,
             decoration: BoxDecoration(
-              color: const Color(0xFF00FFE7).withOpacity(0.08),
+              color: const Color(0xFF1E40AF).withOpacity(0.08),
               borderRadius: BorderRadius.circular(4),
             ),
             child: FractionallySizedBox(
@@ -1045,19 +1054,19 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
             decoration: BoxDecoration(
               border: Border.all(
                   color: _pickStatus == PickStatus.picking
-                      ? const Color(0xFFFF6B35)
+                      ? const Color(0xFFDC2626)
                       : _pickStatus == PickStatus.error
                           ? const Color(0xFFFF4444)
-                          : const Color(0xFF00FFE7).withOpacity(0.3)),
+                          : const Color(0xFF1E40AF).withOpacity(0.3)),
               color: _pickStatus == PickStatus.picking
-                  ? const Color(0xFFFF6B35).withOpacity(0.06)
+                  ? const Color(0xFFDC2626).withOpacity(0.06)
                   : _pickStatus == PickStatus.error
                       ? const Color(0xFFFF4444).withOpacity(0.06)
                       : Colors.transparent,
             ),
             child: Row(
               children: [
-                const Icon(Icons.hardware, size: 32, color: Colors.white70),
+                const Icon(Icons.hardware, size: 32, color: Color(0x991F2937)),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -1067,7 +1076,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                           style: TextStyle(
                               fontSize: 9,
                               letterSpacing: 2,
-                              color: Colors.white38)),
+                              color: Color(0x991F2937))),
                       Text(
                         _pickStatus == PickStatus.idle
                             ? '— IDLE / STANDBY'
@@ -1080,12 +1089,12 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                           fontSize: 14,
                           fontFamily: 'ShareTechMono',
                           color: _pickStatus == PickStatus.picking
-                              ? const Color(0xFFFF6B35)
+                              ? const Color(0xFFDC2626)
                               : _pickStatus == PickStatus.picked
-                                  ? const Color(0xFF00FFE7)
+                                  ? const Color(0xFF1E40AF)
                                   : _pickStatus == PickStatus.error
                                       ? const Color(0xFFFF4444)
-                                      : Colors.white38,
+                                      : const Color(0x991F2937).withOpacity(0.4),
                         ),
                       ),
                     ],
@@ -1102,22 +1111,22 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
   Widget _statCell(String label, String value, {Color? textColor}) {
     return Container(
       padding: const EdgeInsets.all(12),
-      color: const Color(0xFF020812),
+      color: const Color(0xFFEBF3FC),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
               style: const TextStyle(
-                  fontSize: 9, letterSpacing: 2, color: Colors.white38)),
+                  fontSize: 9, letterSpacing: 2, color: Color(0x991F2937))),
           const SizedBox(height: 4),
           Text(value,
               style: TextStyle(
                   fontSize: 24,
                   fontFamily: 'ShareTechMono',
-                  color: textColor ?? const Color(0xFF00FFE7),
+                  color: textColor ?? const Color(0xFF1E40AF),
                   shadows: [
                     Shadow(
-                        color: textColor ?? const Color(0xFF00FFE7),
+                        color: textColor ?? const Color(0xFF1E40AF),
                         blurRadius: 8)
                   ])),
         ],
@@ -1132,7 +1141,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -1142,7 +1151,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
               style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 3,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Expanded(
@@ -1152,13 +1161,13 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                         style: TextStyle(
                             fontSize: 12,
                             letterSpacing: 2,
-                            color: Colors.white24)),
+                            color: Color(0x991F2937))),
                   )
                 : ListView.separated(
                     itemCount: _eventLog.length,
                     separatorBuilder: (_, __) => Divider(
                         height: 1,
-                        color: const Color(0xFF00FFE7).withOpacity(0.1)),
+                        color: const Color(0xFF1E40AF).withOpacity(0.1)),
                     itemBuilder: (context, index) {
                       final e = _eventLog[index];
                       return Padding(
@@ -1171,7 +1180,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     color: e.result == InspectionResult.ok
-                                        ? const Color(0xFF00FFE7)
+                                        ? const Color(0xFF1E40AF)
                                             .withOpacity(0.5)
                                         : const Color(0xFFFF4444)
                                             .withOpacity(0.5)),
@@ -1184,7 +1193,7 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                                       fontSize: 10,
                                       fontFamily: 'ShareTechMono',
                                       color: e.result == InspectionResult.ok
-                                          ? const Color(0xFF00FFE7)
+                                          ? const Color(0xFF1E40AF)
                                           : const Color(0xFFFF4444))),
                             ),
                             const SizedBox(width: 12),
@@ -1199,11 +1208,11 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                                               'SURFACE DEFECT'),
                                       style: const TextStyle(
                                           fontSize: 11,
-                                          color: Color(0xFFC8E6E3))),
+                                          color: Color(0x991F2937))),
                                   Text('${e.confidence.toInt()}%',
                                       style: const TextStyle(
                                           fontSize: 9,
-                                          color: Colors.white38)),
+                                          color: Color(0x991F2937))),
                                 ],
                               ),
                             ),
@@ -1212,10 +1221,10 @@ class _VisionInspectionScreenState extends State<VisionInspectionScreen>
                               children: [
                                 if (e.pickStatus == PickStatus.picked)
                                   const Icon(Icons.gesture,
-                                      size: 14, color: Color(0xFFFF6B35)),
+                                      size: 14, color: Color(0xFFDC2626)),
                                 Text(e.time,
                                     style: const TextStyle(
-                                        fontSize: 9, color: Colors.white24)),
+                                        fontSize: 9, color: Color(0x991F2937))),
                               ],
                             ),
                           ],
@@ -1281,7 +1290,7 @@ class ScanSweepPainter extends CustomPainter {
       ..shader = const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Colors.transparent, Color(0xFF00FFE7), Colors.transparent],
+        colors: [Colors.transparent, Color(0xFF1E40AF), Colors.transparent],
         stops: [0.0, 0.5, 1.0],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
     canvas.drawRect(

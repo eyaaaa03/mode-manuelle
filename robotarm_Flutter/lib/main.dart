@@ -30,20 +30,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RobotProvider()),
       ],
       child: MaterialApp(
-        title: 'MECHAARM',
+        title: 'ROBOT ARM CONTROLn',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,
-          primaryColor: const Color(0xFF00FFE7),
-          scaffoldBackgroundColor: const Color(0xFF020812),
+          primaryColor: const Color(0xFF1E40AF),
+          scaffoldBackgroundColor: const Color(0xFFEBF3FC),
           textTheme: const TextTheme(
-            bodyLarge: TextStyle(color: Color(0xFFC8E6E3)),
-            bodyMedium: TextStyle(color: Color(0xFFC8E6E3)),
+            bodyLarge: TextStyle(color: Color(0x991F2937)),
+            bodyMedium: TextStyle(color: Color(0x991F2937)),
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              foregroundColor: const Color(0xFF020812),
-              backgroundColor: const Color(0xFF00FFE7),
+              foregroundColor: const Color(0xFFEBF3FC),
+              backgroundColor: const Color(0xFF1E40AF),
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
                 letterSpacing: 2,
@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
           ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Color(0xFF00FFE7)),
-              foregroundColor: const Color(0xFF00FFE7),
+              side: const BorderSide(color: Color(0xFF1E40AF)),
+              foregroundColor: const Color(0xFF1E40AF),
             ),
           ),
         ),

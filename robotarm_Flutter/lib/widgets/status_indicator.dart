@@ -19,12 +19,12 @@ class StatusIndicator extends StatelessWidget {
           width: 8,
           height: 8,
           decoration: BoxDecoration(
-            color: isOnline ? const Color(0xFF00FFE7) : const Color(0xFFFF4444),
+            color: isOnline ? const Color(0xFF1E40AF) : const Color(0xFFFF4444),
             shape: BoxShape.circle,
             boxShadow: isOnline
                 ? [
               BoxShadow(
-                color: const Color(0xFF00FFE7).withOpacity(0.5),
+                color: const Color(0xFF1E40AF).withOpacity(0.5),
                 blurRadius: 8,
               ),
             ]
@@ -37,7 +37,7 @@ class StatusIndicator extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             letterSpacing: 2,
-            color: isOnline ? const Color(0xFF00FFE7) : const Color(0xFFFF4444),
+            color: isOnline ? const Color(0xFF1E40AF) : const Color(0xFFFF4444),
           ),
         ),
       ],

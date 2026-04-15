@@ -40,7 +40,7 @@ class QuickPresets extends StatelessWidget {
             fontFamily: 'Orbitron',
             fontSize: 10,
             letterSpacing: 3,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
           ),
         ),
         Expanded(
@@ -50,7 +50,7 @@ class QuickPresets extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF00FFE7).withOpacity(0.3),
+                  const Color(0xFF1E40AF).withOpacity(0.3),
                   Colors.transparent,
                 ],
               ),
@@ -65,7 +65,7 @@ class QuickPresets extends StatelessWidget {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
-        side: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.3)),
+        side: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.3)),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       ),
@@ -73,7 +73,7 @@ class QuickPresets extends StatelessWidget {
         label,
         style: const TextStyle(
           fontSize: 12,
-          color: Color(0xFFC8E6E3),
+          color: Color(0x991F2937),
         ),
       ),
     );

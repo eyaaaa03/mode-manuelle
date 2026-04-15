@@ -45,7 +45,7 @@ const BLOCKED_DOMAINS = new Set([
     .form-row   { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
     .form-group label { display:block; font-size:0.68rem; letter-spacing:3px; text-transform:uppercase; color:var(--neon); margin-bottom:0.5rem; opacity:0.9;}
     .input-wrap { position:relative; }
-    .input-wrap input { width:100%; background:rgba(30,64,175,0.03); border:1px solid rgba(30,64,175,0.2); color:#fff; padding:0.8rem 2rem 0.8rem 2.6rem; font-family:'Rajdhani',sans-serif; font-size:0.95rem; letter-spacing:1px; outline:none; transition:all 0.3s; border-radius:2px; }
+    .input-wrap input { width:100%; background:rgba(30,64,175,0.03); border:1px solid rgba(30,64,175,0.2); color:#000; padding:0.8rem 2rem 0.8rem 2.6rem; font-family:'Rajdhani',sans-serif; font-size:0.95rem; letter-spacing:1px; outline:none; transition:all 0.3s; border-radius:2px; }
     .input-wrap input:focus { border-color:var(--neon); background:rgba(30,64,175,0.06); box-shadow:0 0 15px rgba(30,64,175,0.08); }
     .input-wrap input.valid   { border-color:rgba(0,255,150,0.5); }
     .input-wrap input.invalid { border-color:rgba(255,80,80,0.5); }

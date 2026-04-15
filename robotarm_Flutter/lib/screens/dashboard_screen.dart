@@ -81,17 +81,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final robotProvider = Provider.of<RobotProvider>(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF020812),
+      backgroundColor: const Color(0xFFEBF3FC),
       body: Column(
         children: [
           // Navigation Bar
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: const Color(0xFF020812).withOpacity(0.95),
+              color: const Color(0xFFEBF3FC).withOpacity(0.95),
               border: Border(
                 bottom: BorderSide(
-                  color: const Color(0xFF00FFE7).withOpacity(0.3),
+                  color: const Color(0xFF1E40AF).withOpacity(0.3),
                   width: 1,
                 ),
               ),
@@ -107,13 +107,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF00FFE7),
+                          color: Color(0xFF1E40AF),
                         ),
                       ),
                       const Spacer(),
                       IconButton(
                         onPressed: () => Navigator.pushNamed(context, '/vision'),
-                        icon: const Icon(Icons.visibility, color: Color(0xFF00FFE7)),
+                        icon: const Icon(Icons.visibility, color: Color(0xFF1E40AF)),
                         tooltip: 'Vision Mode',
                       ),
                       IconButton(
@@ -132,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF00FFE7),
+                        color: Color(0xFF1E40AF),
                         letterSpacing: 2,
                       ),
                     ),
@@ -140,7 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.4)),
+                        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.4)),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -150,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             width: 8,
                             height: 8,
                             decoration: const BoxDecoration(
-                              color: Color(0xFF00FFE7),
+                              color: Color(0xFF1E40AF),
                               shape: BoxShape.circle,
                             ),
                           ),
@@ -159,7 +159,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             'SYSTEM ONLINE',
                             style: TextStyle(
                               fontSize: 10,
-                              color: Color(0xFF00FFE7),
+                              color: Color(0xFF1E40AF),
                               letterSpacing: 1,
                             ),
                           ),
@@ -172,8 +172,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       icon: const Icon(Icons.visibility, size: 16),
                       label: const Text('VISION MODE'),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFF00FFE7),
-                        side: const BorderSide(color: Color(0xFF00FFE7)),
+                        foregroundColor: const Color(0xFF1E40AF),
+                        side: const BorderSide(color: Color(0xFF1E40AF)),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -181,14 +181,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       _currentTime,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFFC8E6E3),
+                        color: Color(0x991F2937),
                       ),
                     ),
                     const SizedBox(width: 16),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.2)),
+                        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.2)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
@@ -198,7 +198,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             height: 32,
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [Color(0xFF00FFE7), Color(0xFFFF6B35)],
+                                colors: [Color(0xFF1E40AF), Color(0xFFDC2626)],
                               ),
                               shape: BoxShape.circle,
                             ),
@@ -206,7 +206,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: Text(
                                 authProvider.currentUser?.fullName[0].toUpperCase() ?? 'OP',
                                 style: const TextStyle(
-                                  color: Color(0xFF020812),
+                                  color: Color(0xFFEBF3FC),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
                                 ),
@@ -218,7 +218,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             authProvider.currentUser?.fullName.toUpperCase() ?? 'OPERATOR',
                             style: const TextStyle(
                               fontSize: 11,
-                              color: Color(0xFFC8E6E3),
+                              color: Color(0x991F2937),
                             ),
                           ),
                         ],
@@ -250,7 +250,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: robotProvider.isLoading
                 ? const Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF00FFE7)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1E40AF)),
               ),
             )
                 : SingleChildScrollView(
@@ -336,7 +336,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -350,7 +350,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 2,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -358,14 +358,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF00FFE7).withOpacity(0.2),
+                    color: const Color(0xFF1E40AF).withOpacity(0.2),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: const Text(
                     'MOVING...',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Color(0xFF00FFE7),
+                      color: Color(0xFF1E40AF),
                     ),
                   ),
                 ),
@@ -378,7 +378,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             value: robotProvider.state.base,
             min: 0,
             max: 180,
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
             robotProvider: robotProvider,
             authProvider: authProvider,
           ),
@@ -389,7 +389,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             value: robotProvider.state.shoulder,
             min: 0,
             max: 180,
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
             robotProvider: robotProvider,
             authProvider: authProvider,
           ),
@@ -400,7 +400,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             value: robotProvider.state.elbow,
             min: 0,
             max: 180,
-            color: const Color(0xFF00FFE7),
+            color: const Color(0xFF1E40AF),
             robotProvider: robotProvider,
             authProvider: authProvider,
           ),
@@ -411,7 +411,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             value: robotProvider.state.gripper,
             min: 0,
             max: 90,
-            color: const Color(0xFFFF6B35),
+            color: const Color(0xFFDC2626),
             robotProvider: robotProvider,
             authProvider: authProvider,
           ),
@@ -424,7 +424,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : () => robotProvider.sendCommand(authProvider.currentUser?.id),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
-                side: const BorderSide(color: Color(0xFF00FFE7)),
+                side: const BorderSide(color: Color(0xFF1E40AF)),
               ),
               child: robotProvider.isSending
                   ? const SizedBox(
@@ -436,7 +436,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 'SEND MANUAL COMMAND',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                 ),
               ),
             ),
@@ -474,7 +474,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Color(0x991F2937),
                   ),
                 ),
               ],
@@ -504,9 +504,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('$min°', style: const TextStyle(fontSize: 9, color: Color(0xFFC8E6E3))),
-            Text('${(min + max) ~/ 2}°', style: const TextStyle(fontSize: 9, color: Color(0xFFC8E6E3))),
-            Text('$max°', style: const TextStyle(fontSize: 9, color: Color(0xFFC8E6E3))),
+            Text('$min°', style: const TextStyle(fontSize: 9, color: Color(0x991F2937))),
+            Text('${(min + max) ~/ 2}°', style: const TextStyle(fontSize: 9, color: Color(0x991F2937))),
+            Text('$max°', style: const TextStyle(fontSize: 9, color: Color(0x991F2937))),
           ],
         ),
       ],
@@ -517,7 +517,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -527,7 +527,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               fontSize: 12,
               letterSpacing: 2,
-              color: Color(0xFF00FFE7),
+              color: Color(0xFF1E40AF),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -554,10 +554,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 runSpacing: 8,
                 alignment: WrapAlignment.center,
                 children: [
-                  _buildMiniStatus('BASE', '${state.base}°', const Color(0xFF00FFE7)),
-                  _buildMiniStatus('SHOULDER', '${state.shoulder}°', const Color(0xFF00FFE7)),
-                  _buildMiniStatus('ELBOW', '${state.elbow}°', const Color(0xFF00FFE7)),
-                  _buildMiniStatus('GRIPPER', '${state.gripper}°', const Color(0xFFFF6B35)),
+                  _buildMiniStatus('BASE', '${state.base}°', const Color(0xFF1E40AF)),
+                  _buildMiniStatus('SHOULDER', '${state.shoulder}°', const Color(0xFF1E40AF)),
+                  _buildMiniStatus('ELBOW', '${state.elbow}°', const Color(0xFF1E40AF)),
+                  _buildMiniStatus('GRIPPER', '${state.gripper}°', const Color(0xFFDC2626)),
                 ],
               );
             },
@@ -578,7 +578,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3)),
+            style: const TextStyle(fontSize: 10, color: Color(0x991F2937)),
           ),
           const SizedBox(height: 2),
           Text(
@@ -598,7 +598,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -609,23 +609,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               fontSize: 12,
               letterSpacing: 2,
-              color: Color(0xFF00FFE7),
+              color: Color(0xFF1E40AF),
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 16),
-          _buildTelemetryItem('BASE', state.base, 180, const Color(0xFF00FFE7)),
+          _buildTelemetryItem('BASE', state.base, 180, const Color(0xFF1E40AF)),
           const SizedBox(height: 12),
-          _buildTelemetryItem('SHOULDER', state.shoulder, 180, const Color(0xFF00FFE7)),
+          _buildTelemetryItem('SHOULDER', state.shoulder, 180, const Color(0xFF1E40AF)),
           const SizedBox(height: 12),
-          _buildTelemetryItem('ELBOW', state.elbow, 180, const Color(0xFF00FFE7)),
+          _buildTelemetryItem('ELBOW', state.elbow, 180, const Color(0xFF1E40AF)),
           const SizedBox(height: 12),
-          _buildTelemetryItem('GRIPPER', state.gripper, 90, const Color(0xFFFF6B35)),
+          _buildTelemetryItem('GRIPPER', state.gripper, 90, const Color(0xFFDC2626)),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFFFF6B35).withOpacity(0.3)),
+              border: Border.all(color: const Color(0xFFDC2626).withOpacity(0.3)),
               borderRadius: BorderRadius.circular(4),
             ),
             child: Row(
@@ -634,7 +634,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   width: 6,
                   height: 6,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF00FFE7),
+                    color: Color(0xFF1E40AF),
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -643,7 +643,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   'READY',
                   style: TextStyle(
                     fontSize: 10,
-                    color: Color(0xFF00FFE7),
+                    color: Color(0xFF1E40AF),
                   ),
                 ),
               ],
@@ -662,7 +662,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: const TextStyle(fontSize: 11, color: Color(0xFFC8E6E3))),
+            Text(label, style: const TextStyle(fontSize: 11, color: Color(0x991F2937))),
             Text(
               '${value.toString().padLeft(3, '0')}°',
               style: TextStyle(
@@ -701,7 +701,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -712,7 +712,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               fontSize: 12,
               letterSpacing: 2,
-              color: Color(0xFF00FFE7),
+              color: Color(0xFF1E40AF),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -733,7 +733,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Loaded: ${preset['name']}'),
-                      backgroundColor: const Color(0xFF00FFE7),
+                      backgroundColor: const Color(0xFF1E40AF),
                       duration: const Duration(seconds: 1),
                     ),
                   );
@@ -759,8 +759,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   : () => robotProvider.sendCommand(authProvider.currentUser?.id),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                backgroundColor: const Color(0xFF00FFE7),
-                foregroundColor: const Color(0xFF020812),
+                backgroundColor: const Color(0xFF1E40AF),
+                foregroundColor: const Color(0xFFEBF3FC),
               ),
               child: robotProvider.isSending
                   ? const SizedBox(
@@ -786,7 +786,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withOpacity(0.15)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.15)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -797,7 +797,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               fontSize: 12,
               letterSpacing: 2,
-              color: Color(0xFF00FFE7),
+              color: Color(0xFF1E40AF),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -809,7 +809,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Text(
                 'No commands',
                 style: TextStyle(
-                  color: const Color(0xFFC8E6E3).withOpacity(0.5),
+                  color: const Color(0x991F2937).withOpacity(0.5),
                   fontSize: 11,
                 ),
               ),
@@ -822,7 +822,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   decoration: BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.1)),
+                      bottom: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.1)),
                     ),
                   ),
                   child: Row(
@@ -831,7 +831,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         flex: 2,
                         child: Text(
                           cmd.commandName,
-                          style: const TextStyle(fontSize: 10, color: Color(0xFFC8E6E3)),
+                          style: const TextStyle(fontSize: 10, color: Color(0x991F2937)),
                         ),
                       ),
                       Expanded(
@@ -840,7 +840,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           'B:${cmd.base} S:${cmd.shoulder} E:${cmd.elbow} G:${cmd.gripper}',
                           style: const TextStyle(
                             fontSize: 9,
-                            color: Color(0xFF00FFE7),
+                            color: Color(0xFF1E40AF),
                           ),
                         ),
                       ),
@@ -848,7 +848,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         cmd.formattedTime.substring(0, 5),
                         style: TextStyle(
                           fontSize: 8,
-                          color: const Color(0xFFC8E6E3).withOpacity(0.5),
+                          color: const Color(0x991F2937).withOpacity(0.5),
                         ),
                       ),
                     ],
@@ -883,12 +883,12 @@ class ArmPainter extends CustomPainter {
     final centerY = size.height - 30;
 
     final basePaint = Paint()
-      ..color = const Color(0xFF00FFE7)
+      ..color = const Color(0xFF1E40AF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
     canvas.drawCircle(Offset(centerX, centerY), 12, basePaint);
-    canvas.drawCircle(Offset(centerX, centerY), 5, Paint()..color = const Color(0xFF00FFE7).withOpacity(0.3));
+    canvas.drawCircle(Offset(centerX, centerY), 5, Paint()..color = const Color(0xFF1E40AF).withOpacity(0.3));
 
     final baseRad = (baseAngle - 90) * 3.14159 / 180;
     final shoulderRad = (shoulderAngle - 90) * 3.14159 / 180;
@@ -902,7 +902,7 @@ class ArmPainter extends CustomPainter {
     final wristY = elbowY - 30;
 
     final armPaint = Paint()
-      ..color = const Color(0xFF00FFE7)
+      ..color = const Color(0xFF1E40AF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.5;
 
@@ -910,12 +910,12 @@ class ArmPainter extends CustomPainter {
     canvas.drawLine(Offset(shoulderX, shoulderY), Offset(elbowX, elbowY), armPaint);
     canvas.drawLine(Offset(elbowX, elbowY), Offset(wristX, wristY), armPaint);
 
-    final jointPaint = Paint()..color = const Color(0xFF00FFE7);
+    final jointPaint = Paint()..color = const Color(0xFF1E40AF);
     canvas.drawCircle(Offset(shoulderX, shoulderY), 5, jointPaint);
     canvas.drawCircle(Offset(elbowX, elbowY), 4, jointPaint);
     canvas.drawCircle(Offset(wristX, wristY), 3, jointPaint);
 
-    final gripPaint = Paint()..color = const Color(0xFFFF6B35);
+    final gripPaint = Paint()..color = const Color(0xFFDC2626);
     final gripOffset = (gripperAngle / 90) * 5;
     canvas.drawLine(Offset(wristX - 5 + gripOffset, wristY + 6), Offset(wristX, wristY + 12), gripPaint);
     canvas.drawLine(Offset(wristX + 5 - gripOffset, wristY + 6), Offset(wristX, wristY + 12), gripPaint);

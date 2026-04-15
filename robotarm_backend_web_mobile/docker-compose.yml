@@ -4,7 +4,7 @@ services:
     container_name: mysql_db
     restart: always
     environment:
-#      MYSQL_ROOT_PASSWORD: 0000
+      MYSQL_ROOT_PASSWORD: Ehoh29032002+
       MYSQL_DATABASE: robot_arm_db
       MYSQL_USER: your_user
       MYSQL_PASSWORD: your_password
@@ -27,7 +27,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/robot_arm_db
       SPRING_DATASOURCE_USERNAME: root
-#      SPRING_DATASOURCE_PASSWORD: 0000
+      SPRING_DATASOURCE_PASSWORD: Ehoh29032002+
     depends_on:
       mysql:
         condition: service_healthy
@@ -40,5 +40,10 @@ services:
       - "80:80"
     depends_on:
       - backend
+
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
 volumes:
   mysql_data:

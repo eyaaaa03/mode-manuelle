@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -34,8 +33,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     );
 
     _animationController.forward();
-
-    // REMOVED: _autoNavigate() - No more automatic navigation
   }
 
   @override
@@ -53,9 +50,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF020812),
-              Color(0xFF0A1A2A),
-              Color(0xFF020812),
+              Color(0xFFEBF3FC),
+              Color(0xFFEBF3FC),
+              Color(0xFFEBF3FC),
             ],
           ),
         ),
@@ -79,6 +76,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // App Logo
+                        FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: SlideTransition(
+                            position: _slideAnimation,
+                            child: Image.asset(
+                              'assets/icon/logo.png',
+                              height: 100,
+                              width: 100,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
                         // System Status Badge
                         FadeTransition(
                           opacity: _fadeAnimation,
@@ -161,7 +172,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      const Color(0xFF00FFE7).withValues(alpha: 0.08),
+                      const Color(0xFF1E40AF).withOpacity(0.08),
                       Colors.transparent,
                     ],
                   ),
@@ -186,7 +197,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      const Color(0xFFFF6B35).withValues(alpha: 0.08),
+                      const Color(0xFFDC2626).withOpacity(0.08),
                       Colors.transparent,
                     ],
                   ),
@@ -214,7 +225,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
               gradient: LinearGradient(
                 colors: [
                   Colors.transparent,
-                  const Color(0xFF00FFE7).withValues(alpha: 0.4),
+                  const Color(0xFF1E40AF).withOpacity(0.4),
                   Colors.transparent,
                 ],
               ),
@@ -229,9 +240,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF00FFE7).withValues(alpha: 0.3)),
+        border: Border.all(color: const Color(0xFF1E40AF).withOpacity(0.3)),
         borderRadius: BorderRadius.circular(20),
-        color: const Color(0xFF00FFE7).withValues(alpha: 0.05),
+        color: const Color(0xFF1E40AF).withOpacity(0.05),
       ),
       child: const Row(
         mainAxisSize: MainAxisSize.min,
@@ -241,7 +252,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             height: 8,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Color(0xFF00FFE7),
+                color: Color(0xFF1E40AF),
                 shape: BoxShape.circle,
               ),
             ),
@@ -252,7 +263,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
             style: TextStyle(
               fontSize: 10,
               letterSpacing: 2,
-              color: Color(0xFF00FFE7),
+              color: Color(0xFF1E40AF),
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -269,7 +280,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           style: TextStyle(
             fontSize: 48,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Color(0xFFEBF3FC),
             letterSpacing: 4,
           ),
         ),
@@ -279,7 +290,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           style: TextStyle(
             fontSize: 52,
             fontWeight: FontWeight.bold,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
             letterSpacing: 6,
           ),
         ),
@@ -288,10 +299,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: Color(0xFF00FFE7), width: 0.5),
-                top: BorderSide(color: Color(0xFF00FFE7), width: 0.5),
-                left: BorderSide(color: Color(0xFF00FFE7), width: 0.5),
-                right: BorderSide(color: Color(0xFF00FFE7), width: 0.5),
+                bottom: BorderSide(color: Color(0xFF1E40AF), width: 0.5),
+                top: BorderSide(color: Color(0xFF1E40AF), width: 0.5),
+                left: BorderSide(color: Color(0xFF1E40AF), width: 0.5),
+                right: BorderSide(color: Color(0xFF1E40AF), width: 0.5),
               ),
             ),
             child: Padding(
@@ -301,7 +312,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                 style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 3,
-                  color: Color(0xFFC8E6E3),
+                  color: Color(0x991F2937),
                 ),
               ),
             ),
@@ -320,7 +331,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         style: TextStyle(
           fontSize: 14,
           height: 1.6,
-          color: Color(0xFFC8E6E3),
+          color: Color(0x991F2937),
         ),
       ),
     );
@@ -331,10 +342,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          // For mobile screens, use Column layout
           LayoutBuilder(
             builder: (context, constraints) {
-              // If screen width is less than 500px, stack buttons vertically
               if (constraints.maxWidth < 500) {
                 return Column(
                   children: [
@@ -345,8 +354,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           Navigator.pushReplacementNamed(context, '/signup');
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF00FFE7),
-                          foregroundColor: const Color(0xFF020812),
+                          backgroundColor: const Color(0xFF1E40AF),
+                          foregroundColor: const Color(0xFFEBF3FC),
                           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           textStyle: const TextStyle(
                             fontSize: 14,
@@ -368,8 +377,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                           Navigator.pushReplacementNamed(context, '/login');
                         },
                         style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFF00FFE7)),
-                          foregroundColor: const Color(0xFF00FFE7),
+                          side: const BorderSide(color: Color(0xFF1E40AF)),
+                          foregroundColor: const Color(0xFF1E40AF),
                           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           textStyle: const TextStyle(
                             fontSize: 14,
@@ -386,7 +395,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                   ],
                 );
               }
-              // For wider screens, use Row layout
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -396,8 +404,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                         Navigator.pushReplacementNamed(context, '/signup');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF00FFE7),
-                        foregroundColor: const Color(0xFF020812),
+                        backgroundColor: const Color(0xFF1E40AF),
+                        foregroundColor: const Color(0xFFEBF3FC),
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         textStyle: const TextStyle(
                           fontSize: 14,
@@ -418,8 +426,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
                         Navigator.pushReplacementNamed(context, '/login');
                       },
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFF00FFE7)),
-                        foregroundColor: const Color(0xFF00FFE7),
+                        side: const BorderSide(color: Color(0xFF1E40AF)),
+                        foregroundColor: const Color(0xFF1E40AF),
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                         textStyle: const TextStyle(
                           fontSize: 14,
@@ -446,7 +454,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     return const Column(
       children: [
         Divider(
-          color: Color(0xFF00FFE7),
+          color: Color(0xFF1E40AF),
           height: 1,
           thickness: 0.5,
         ),
@@ -456,7 +464,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           style: TextStyle(
             fontSize: 10,
             letterSpacing: 2,
-            color: Color(0xFFC8E6E3),
+            color: Color(0x991F2937),
           ),
         ),
         SizedBox(height: 8),
@@ -465,7 +473,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
           style: TextStyle(
             fontSize: 10,
             letterSpacing: 2,
-            color: Color(0xFFC8E6E3),
+            color: Color(0x991F2937),
           ),
         ),
       ],
@@ -473,23 +481,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
   }
 }
 
-// Custom painter for grid background
 class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF00FFE7).withValues(alpha: 0.03)
+      ..color = const Color(0xFF1E40AF).withOpacity(0.03)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
 
     const gridSize = 50.0;
 
-    // Draw vertical lines
     for (double x = 0; x < size.width; x += gridSize) {
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
     }
 
-    // Draw horizontal lines
     for (double y = 0; y < size.height; y += gridSize) {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }

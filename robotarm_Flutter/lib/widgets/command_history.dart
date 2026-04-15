@@ -12,8 +12,8 @@ class CommandHistoryPanel extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.12)),
-          left: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.12)),
+          top: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.12)),
+          left: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.12)),
         ),
       ),
       child: Column(
@@ -29,7 +29,7 @@ class CommandHistoryPanel extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   letterSpacing: 2,
-                  color: const Color(0xFFC8E6E3).withOpacity(0.3),
+                  color: const Color(0x991F2937).withOpacity(0.3),
                 ),
               ),
             )
@@ -54,7 +54,7 @@ class CommandHistoryPanel extends StatelessWidget {
             fontFamily: 'Orbitron',
             fontSize: 10,
             letterSpacing: 3,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
           ),
         ),
         Expanded(
@@ -64,7 +64,7 @@ class CommandHistoryPanel extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF00FFE7).withOpacity(0.3),
+                  const Color(0xFF1E40AF).withOpacity(0.3),
                   Colors.transparent,
                 ],
               ),
@@ -80,7 +80,7 @@ class CommandHistoryPanel extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.06)),
+          bottom: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.06)),
         ),
       ),
       child: Row(
@@ -91,7 +91,7 @@ class CommandHistoryPanel extends StatelessWidget {
               command.commandName,
               style: const TextStyle(
                 fontSize: 12,
-                color: Color(0xFFC8E6E3),
+                color: Color(0x991F2937),
               ),
             ),
           ),
@@ -102,7 +102,7 @@ class CommandHistoryPanel extends StatelessWidget {
               style: const TextStyle(
                 fontFamily: 'Share Tech Mono',
                 fontSize: 10,
-                color: Color(0xFF00FFE7),
+                color: Color(0xFF1E40AF),
               ),
             ),
           ),
@@ -110,7 +110,7 @@ class CommandHistoryPanel extends StatelessWidget {
             command.formattedTime,
             style: TextStyle(
               fontSize: 10,
-              color: const Color(0xFFC8E6E3).withOpacity(0.5),
+              color: const Color(0x991F2937).withOpacity(0.5),
             ),
           ),
         ],

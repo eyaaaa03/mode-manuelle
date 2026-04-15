@@ -12,7 +12,7 @@ class TelemetryPanel extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         border: Border(
-          left: BorderSide(color: const Color(0xFF00FFE7).withOpacity(0.12)),
+          left: BorderSide(color: const Color(0xFF1E40AF).withOpacity(0.12)),
         ),
       ),
       child: Column(
@@ -28,7 +28,7 @@ class TelemetryPanel extends StatelessWidget {
                   value: robotState.base,
                   unit: 'DEG',
                   maxValue: 180,
-                  color: const Color(0xFF00FFE7),
+                  color: const Color(0xFF1E40AF),
                 ),
                 const SizedBox(height: 16),
                 _buildTelemetryCard(
@@ -36,7 +36,7 @@ class TelemetryPanel extends StatelessWidget {
                   value: robotState.shoulder,
                   unit: 'DEG',
                   maxValue: 180,
-                  color: const Color(0xFF00FFE7),
+                  color: const Color(0xFF1E40AF),
                 ),
                 const SizedBox(height: 16),
                 _buildTelemetryCard(
@@ -44,7 +44,7 @@ class TelemetryPanel extends StatelessWidget {
                   value: robotState.elbow,
                   unit: 'DEG',
                   maxValue: 180,
-                  color: const Color(0xFF00FFE7),
+                  color: const Color(0xFF1E40AF),
                 ),
                 const SizedBox(height: 16),
                 _buildTelemetryCard(
@@ -52,7 +52,7 @@ class TelemetryPanel extends StatelessWidget {
                   value: robotState.gripper,
                   unit: 'DEG',
                   maxValue: 90,
-                  color: const Color(0xFFFF6B35),
+                  color: const Color(0xFFDC2626),
                 ),
                 const SizedBox(height: 24),
                 _buildStatusCard(),
@@ -73,7 +73,7 @@ class TelemetryPanel extends StatelessWidget {
             fontFamily: 'Orbitron',
             fontSize: 10,
             letterSpacing: 3,
-            color: Color(0xFF00FFE7),
+            color: Color(0xFF1E40AF),
           ),
         ),
         Expanded(
@@ -83,7 +83,7 @@ class TelemetryPanel extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color(0xFF00FFE7).withOpacity(0.3),
+                  const Color(0xFF1E40AF).withOpacity(0.3),
                   Colors.transparent,
                 ],
               ),
@@ -117,7 +117,7 @@ class TelemetryPanel extends StatelessWidget {
             style: const TextStyle(
               fontSize: 10,
               letterSpacing: 3,
-              color: Color(0xFFC8E6E3),
+              color: Color(0x991F2937),
             ),
           ),
           const SizedBox(height: 8),
@@ -139,7 +139,7 @@ class TelemetryPanel extends StatelessWidget {
                 unit,
                 style: const TextStyle(
                   fontSize: 12,
-                  color: Color(0xFFC8E6E3),
+                  color: Color(0x991F2937),
                 ),
               ),
             ],
@@ -163,8 +163,8 @@ class TelemetryPanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFFF6B35).withOpacity(0.2)),
-        color: const Color(0xFFFF6B35).withOpacity(0.03),
+        border: Border.all(color: const Color(0xFFDC2626).withOpacity(0.2)),
+        color: const Color(0xFFDC2626).withOpacity(0.03),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +174,7 @@ class TelemetryPanel extends StatelessWidget {
             style: TextStyle(
               fontSize: 10,
               letterSpacing: 3,
-              color: Color(0xFFC8E6E3),
+              color: Color(0x991F2937),
             ),
           ),
           const SizedBox(height: 12),
@@ -184,7 +184,7 @@ class TelemetryPanel extends StatelessWidget {
                 width: 10,
                 height: 10,
                 decoration: const BoxDecoration(
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -194,7 +194,7 @@ class TelemetryPanel extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Share Tech Mono',
                   fontSize: 14,
-                  color: Color(0xFF00FFE7),
+                  color: Color(0xFF1E40AF),
                 ),
               ),
             ],
