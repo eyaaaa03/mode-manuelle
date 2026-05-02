@@ -208,7 +208,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text(
-                      'Robot Arm ',
+                      'Robot Arm Control  ',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

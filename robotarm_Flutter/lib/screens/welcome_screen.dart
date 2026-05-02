@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -276,11 +277,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
     return const Column(
       children: [
         Text(
-          'CONTROLL',
+          'PRECISION',
           style: TextStyle(
             fontSize: 48,
             fontWeight: FontWeight.bold,
-            color: Color(0xFFEBF3FC),
+            color: Color(0xFF1F2937),
             letterSpacing: 4,
           ),
         ),
@@ -288,10 +289,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProvider
         Text(
           'ROBOT ARM',
           style: TextStyle(
+            fontFamily: 'Orbitron',
             fontSize: 52,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1E40AF),
             letterSpacing: 6,
+            shadows: [
+              Shadow(
+                color: Color(0xFF1E40AF),
+                blurRadius: 80,
+              ),
+              Shadow(
+                color: Color(0xFF1E40AF),
+                blurRadius: 40,
+              ),
+            ],
           ),
         ),
         SizedBox(height: 16),

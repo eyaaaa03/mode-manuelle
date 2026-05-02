@@ -3,29 +3,30 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { RobotService } from '../../core/services/robot.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type InspectionResult = 'OK' | 'DEFECT' | 'PENDING' | 'SCANNING';
-type PickStatus = 'IDLE' | 'PICKING' | 'PICKED' | 'ERROR';
+type PickStatus       = 'IDLE' | 'PICKING' | 'PICKED' | 'ERROR';
 
 interface InspectionEvent {
-  id: string;
-  time: string;
-  result: InspectionResult;
-  confidence: number;
+  id:          string;
+  time:        string;
+  result:      InspectionResult;
+  confidence:  number;
   defectType?: string;
-  pickStatus: PickStatus;
+  pickStatus:  PickStatus;
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 @Component({
-  selector: 'app-vision-inspection',
-  standalone: true,
-  imports: [CommonModule],
+  selector:    'app-vision-inspection',
+  standalone:  true,
+  imports:     [CommonModule],
   styles: [`
     :host { display: block; }
 
-    /* ── Nav (mirrors dashboard nav) ── */
+    /* ── Nav ── */
     nav {
       position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -34,19 +35,19 @@ interface InspectionEvent {
       border-bottom: 1px solid var(--border);
     }
     .nav-left  { display: flex; align-items: center; gap: 2rem; }
-    .nav-logo { height:40px; width:auto; }
-    .logo      { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.2rem; color: var(--neon); letter-spacing: 4px; text-shadow: none; }
+    .nav-logo  { height: 40px; width: auto; }
+    .logo      { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.2rem; color: var(--neon); letter-spacing: 4px; }
     .logo span { color: var(--neon2); }
     .nav-tabs  { display: flex; gap: 4px; }
-    .nav-tab   { padding: 0.35rem 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: rgba(67, 71, 90, 0.77); cursor: pointer; transition: all 0.2s; }
+    .nav-tab   { padding: 0.35rem 1rem; font-family: 'Rajdhani', sans-serif; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; border: 1px solid var(--border); background: transparent; color: rgba(67,71,90,0.77); cursor: pointer; transition: all 0.2s; }
     .nav-tab:hover  { color: var(--neon); border-color: rgba(0,255,231,0.3); }
     .nav-tab.active { color: var(--neon); border-color: var(--neon); background: rgba(0,255,231,0.06); }
     .nav-status { display: flex; align-items: center; gap: 0.6rem; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; animation: blink 1.5s ease-in-out infinite; box-shadow: 0 0 8px currentColor; }
-    .status-online  { background: var(--neon);   color: var(--neon); }
-    .status-scanning{ background: #a855f7;        color: #a855f7; }
-    .status-offline { background: var(--danger);  color: var(--danger); }
-    .status-label   { color: rgba(31,41,55,0.6); }
+    .status-online   { background: var(--neon);   color: var(--neon); }
+    .status-scanning { background: #a855f7;        color: #a855f7; }
+    .status-offline  { background: var(--danger);  color: var(--danger); }
+    .status-label    { color: rgba(31,41,55,0.6); }
     .nav-right { display: flex; align-items: center; gap: 1.5rem; }
     .clock     { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: rgba(31,41,55,0.5); }
     .user-chip { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1rem; border: 1px solid var(--border); background: var(--panel); font-size: 0.8rem; letter-spacing: 1px; color: var(--text); }
@@ -63,156 +64,118 @@ interface InspectionEvent {
     /* ── Camera feed panel ── */
     .camera-panel { grid-column: 1; grid-row: 1 / 3; }
     .camera-feed  {
-      position: relative; width: 100%; aspect-ratio: 16/9; max-height: 480px;
+      position: relative; width: 100%; aspect-ratio: 16/9; max-height: 700px;
       background: #010a0e; border: 1px solid rgba(0,255,231,0.12); overflow: hidden;
       display: flex; align-items: center; justify-content: center;
     }
-    .camera-feed video, .camera-feed canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .camera-feed canvas { z-index: 2; pointer-events: none; }
+
+    /*
+     * The MJPEG stream is displayed via <img> pointing to http://localhost:5050/stream.
+     * A hidden <canvas> is used only for frame capture before inspection.
+     */
+    .camera-feed img   { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .camera-feed canvas { display: none; }   /* hidden — capture-only */
 
     /* Scan-line sweep */
-    .scan-sweep {
-      position: absolute; inset: 0; z-index: 3; pointer-events: none;
-      background: linear-gradient(180deg, transparent 0%, rgba(0,255,231,0.06) 50%, transparent 100%);
-      background-size: 100% 60px;
-      animation: sweep 2.5s linear infinite;
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
+    .scan-sweep { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(180deg, transparent 0%, rgba(0,255,231,0.06) 50%, transparent 100%); background-size: 100% 60px; animation: sweep 2.5s linear infinite; opacity: 0; transition: opacity 0.4s; }
     .scan-sweep.active { opacity: 1; }
     @keyframes sweep { 0% { background-position: 0 -60px; } 100% { background-position: 0 calc(100% + 60px); } }
 
     /* Corner brackets */
     .cam-corner { position: absolute; width: 22px; height: 22px; z-index: 4; }
-    .cam-corner.tl { top: 8px; left: 8px; border-top: 2px solid var(--neon); border-left: 2px solid var(--neon); }
-    .cam-corner.tr { top: 8px; right: 8px; border-top: 2px solid var(--neon); border-right: 2px solid var(--neon); }
-    .cam-corner.bl { bottom: 8px; left: 8px; border-bottom: 2px solid var(--neon); border-left: 2px solid var(--neon); }
+    .cam-corner.tl { top: 8px; left: 8px;   border-top: 2px solid var(--neon); border-left: 2px solid var(--neon); }
+    .cam-corner.tr { top: 8px; right: 8px;  border-top: 2px solid var(--neon); border-right: 2px solid var(--neon); }
+    .cam-corner.bl { bottom: 8px; left: 8px;  border-bottom: 2px solid var(--neon); border-left: 2px solid var(--neon); }
     .cam-corner.br { bottom: 8px; right: 8px; border-bottom: 2px solid var(--neon); border-right: 2px solid var(--neon); }
 
-    /* Detection box overlay */
-    .detect-box {
-      position: absolute; z-index: 5;
-      border: 2px solid var(--danger);
-      box-shadow: 0 0 14px rgba(255,68,68,0.5), inset 0 0 14px rgba(255,68,68,0.05);
-      animation: pulse-box 0.8s ease-in-out infinite;
-      pointer-events: none;
-      transition: all 0.3s;
-    }
+    /* Detection bounding box overlay */
+    .detect-box { position: absolute; z-index: 5; border: 2px solid var(--danger); box-shadow: 0 0 14px rgba(255,68,68,0.5), inset 0 0 14px rgba(255,68,68,0.05); animation: pulse-box 0.8s ease-in-out infinite; pointer-events: none; transition: all 0.3s; }
     .detect-box.ok { border-color: var(--neon); box-shadow: 0 0 14px rgba(0,255,231,0.4), inset 0 0 14px rgba(0,255,231,0.05); animation: none; }
     @keyframes pulse-box { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    .detect-label {
-      position: absolute; top: -22px; left: 0;
-      font-family: 'Share Tech Mono', monospace; font-size: 0.7rem;
-      padding: 2px 6px; letter-spacing: 1px;
-    }
+    .detect-label { position: absolute; top: -22px; left: 0; font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; padding: 2px 6px; letter-spacing: 1px; }
     .detect-label.defect { background: var(--danger); color: #fff; }
     .detect-label.ok     { background: var(--neon);   color: var(--bg); }
 
     /* No-signal placeholder */
-    .no-signal {
-      display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
-      color: rgba(200,230,227,0.2); font-family: 'Share Tech Mono', monospace;
-      font-size: 0.8rem; letter-spacing: 3px;
-    }
+    .no-signal { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; color: rgba(200,230,227,0.2); font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; letter-spacing: 3px; }
     .no-signal-icon { font-size: 3rem; opacity: 0.3; }
 
-    /* Result badge under camera */
-    .result-badge {
-      display: flex; align-items: center; gap: 1rem;
-      margin-top: 1rem; padding: 0.8rem 1.2rem;
-      background: rgba(0,255,231,0.03); border: 1px solid var(--border);
-    }
-    .result-icon { font-size: 2rem; line-height: 1; }
-    .result-text { flex: 1; }
-    .result-label { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); }
+    /* Service-error banner */
+    .service-error { position: absolute; bottom: 0; left: 0; right: 0; z-index: 6; background: rgba(255,68,68,0.85); color: #fff; font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 1px; text-align: center; padding: 6px; }
+
+    /* Result badge */
+    .result-badge { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; padding: 0.8rem 1.2rem; background: rgba(0,255,231,0.03); border: 1px solid var(--border); }
+    .result-icon  { font-size: 2rem; line-height: 1; }
+    .result-text  { flex: 1; }
+    .result-label { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 2px; color: rgba(11,39,36,0.95); }
     .result-value { font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; margin-top: 2px; }
     .result-value.ok      { color: var(--neon);   text-shadow: 0 0 12px rgba(0,255,231,0.5); }
     .result-value.defect  { color: var(--danger); text-shadow: 0 0 12px rgba(255,68,68,0.5); }
-    .result-value.pending { color:  rgba(11, 39, 36, 0.95); }
+    .result-value.pending { color: rgba(11,39,36,0.95); }
     .result-confidence    { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: rgba(200,230,227,0.35); }
-    .conf-bar { height: 3px; background: rgba(0,255,231,0.1); margin-top: 4px; border-radius: 2px; overflow: hidden; }
+    .conf-bar  { height: 3px; background: rgba(0,255,231,0.1); margin-top: 4px; border-radius: 2px; overflow: hidden; }
     .conf-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; }
-    .conf-fill.ok     { background: var(--neon); box-shadow: 0 0 6px var(--neon); }
+    .conf-fill.ok     { background: var(--neon);   box-shadow: 0 0 6px var(--neon); }
     .conf-fill.defect { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
 
     /* Camera controls */
     .cam-controls { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
-    .cam-btn {
-      padding: 0.55rem 1.2rem; font-family: 'Orbitron', monospace; font-size: 0.65rem;
-      letter-spacing: 2px; cursor: pointer; border-radius: 2px; transition: all 0.3s;
-    }
-    .cam-start { background: var(--neon); border: none; color: var(--bg); font-weight: 700; flex: 1; }
-    .cam-start:hover { box-shadow: 0 0 25px rgba(0,255,231,0.5); }
-    .cam-stop  { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-    .cam-stop:hover { background: rgba(255,68,68,0.1); }
-    .cam-snap  { background: transparent; border: 1px solid #a855f7; color: #a855f7; }
-    .cam-snap:hover { background: rgba(168,85,247,0.1); }
-    .cam-auto  {
-      background: transparent; border: 1px solid rgba(0,255,231,0.3); color: rgba(57, 100, 96, 0.8);
-      font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; padding: 0.55rem 1rem;
-    }
+    .cam-btn    { padding: 0.55rem 1.2rem; font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 2px; cursor: pointer; border-radius: 2px; transition: all 0.3s; }
+    .cam-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .cam-start  { background: var(--neon); border: none; color: var(--bg); font-weight: 700; flex: 1; }
+    .cam-start:hover:not(:disabled) { box-shadow: 0 0 25px rgba(0,255,231,0.5); }
+    .cam-preset { background: transparent; border: 1px solid #10b981;  color: #10b981;}
+    .cam-preset:hover:not(:disabled) { background: rgba(16,185,129,0.1); }
+    .cam-stop   { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+    .cam-stop:hover:not(:disabled)   { background: rgba(255,68,68,0.1); }
+    .cam-snap   { background: transparent; border: 1px solid #a855f7; color: #a855f7; }
+    .cam-snap:hover:not(:disabled)   { background: rgba(168,85,247,0.1); }
+    .cam-auto   { background: transparent; border: 1px solid rgba(0,255,231,0.3); color: rgba(57,100,96,0.8); font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; padding: 0.55rem 1rem; }
     .cam-auto.armed { border-color: var(--neon2); color: var(--neon2); background: rgba(255,107,53,0.07); box-shadow: 0 0 10px rgba(255,107,53,0.2); }
 
-    /* ── Side: stats + pick log ── */
+    /* ── Side panels ── */
     .stats-panel { grid-column: 2; grid-row: 1; }
     .stat-grid   { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 1.2rem; }
     .stat-cell   { background: var(--bg); padding: 0.9rem 1rem; }
-    .stat-label  { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(11, 39, 36, 0.95); margin-bottom: 3px; }
+    .stat-label  { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(11,39,36,0.95); margin-bottom: 3px; }
     .stat-value  { font-family: 'Share Tech Mono', monospace; font-size: 1.6rem; color: var(--neon); }
     .stat-value.defect-count { color: var(--danger); text-shadow: 0 0 10px rgba(255,68,68,0.4); }
     .stat-value.pick-count   { color: #a855f7; text-shadow: 0 0 10px rgba(168,85,247,0.4); }
 
-    /* Defect rate gauge */
-    .gauge-wrap { margin-bottom: 1.4rem; }
-    .gauge-label { font-size: 0.65rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); margin-bottom: 0.5rem; text-transform: uppercase; }
-    .gauge-track { height: 8px; background: rgba(0,255,231,0.08); border-radius: 4px; overflow: hidden; position: relative; }
+    .gauge-wrap  { margin-bottom: 1.4rem; }
+    .gauge-label { font-size: 0.65rem; letter-spacing: 2px; color: rgba(11,39,36,0.95); margin-bottom: 0.5rem; text-transform: uppercase; }
+    .gauge-track { height: 8px; background: rgba(0,255,231,0.08); border-radius: 4px; overflow: hidden; }
     .gauge-fill  { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
     .gauge-fill.low    { background: var(--neon);   box-shadow: 0 0 8px var(--neon); }
     .gauge-fill.medium { background: #f0a500;       box-shadow: 0 0 8px #f0a500; }
     .gauge-fill.high   { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
     .gauge-pct { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; margin-top: 4px; }
 
-    /* Pick arm status */
-    .arm-status-card {
-      padding: 0.9rem 1rem; background: rgba(0,255,231,0.03); border: 1px solid var(--border);
-      display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; transition: all 0.3s;
-    }
+    .arm-status-card { padding: 0.9rem 1rem; background: rgba(0,255,231,0.03); border: 1px solid var(--border); display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; transition: all 0.3s; }
     .arm-status-card.picking { border-color: var(--neon2); background: rgba(255,107,53,0.06); }
     .arm-status-card.error   { border-color: var(--danger); background: rgba(255,68,68,0.06); }
     .arm-status-icon { font-size: 1.8rem; line-height: 1; }
     .arm-status-info { flex: 1; }
-    .arm-status-lbl  { font-size: 0.6rem; letter-spacing: 2px; color: rgba(11, 39, 36, 0.95); text-transform: uppercase; }
+    .arm-status-lbl  { font-size: 0.6rem; letter-spacing: 2px; color: rgba(11,39,36,0.95); text-transform: uppercase; }
     .arm-status-val  { font-family: 'Share Tech Mono', monospace; font-size: 1rem; margin-top: 2px; }
     .arm-status-val.picking { color: var(--neon2); }
     .arm-status-val.picked  { color: var(--neon); }
-    .arm-status-val.idle    { color: rgba(11, 39, 36, 0.95); }
+    .arm-status-val.idle    { color: rgba(11,39,36,0.95); }
     .arm-status-val.error   { color: var(--danger); }
 
-    /* Log panel */
     .log-panel  { grid-column: 2; grid-row: 2; overflow: hidden; display: flex; flex-direction: column; }
     .log-list   { flex: 1; overflow-y: auto; max-height: 340px; }
     .log-list::-webkit-scrollbar { width: 3px; }
     .log-list::-webkit-scrollbar-thumb { background: var(--neon); opacity: 0.3; border-radius: 2px; }
-
-    .log-item {
-      display: grid; grid-template-columns: auto 1fr auto; align-items: center;
-      gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid rgba(0,255,231,0.05);
-      font-size: 0.75rem;
-    }
+    .log-item   { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid rgba(0,255,231,0.05); font-size: 0.75rem; }
     .log-item:last-child { border-bottom: none; }
-    .log-badge {
-      font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 1px;
-      padding: 2px 6px; border-radius: 2px; white-space: nowrap;
-    }
+    .log-badge  { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 2px 6px; border-radius: 2px; white-space: nowrap; }
     .log-badge.ok     { background: rgba(0,255,231,0.12);  color: var(--neon);   border: 1px solid rgba(0,255,231,0.25); }
     .log-badge.defect { background: rgba(255,68,68,0.12);  color: var(--danger); border: 1px solid rgba(255,68,68,0.25); }
-    .log-info  { color: rgba(200,230,227,0.55); letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; }
-    .log-time  { color: rgba(200,230,227,0.2); font-size: 0.62rem; font-family: 'Share Tech Mono', monospace; }
-    .log-pick  { font-size: 0.7rem; }
-    .log-empty { font-size: 0.75rem; color: rgba(11, 39, 36, 0.95); letter-spacing: 2px; text-align: center; padding: 1.5rem; font-family: 'Share Tech Mono', monospace; }
+    .log-info  { color: rgba(11,39,36,0.95); letter-spacing: 0.5px; font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; }
+    .log-time  { color: rgba(11,39,36,0.95); font-size: 0.62rem; font-family: 'Share Tech Mono', monospace; }
+    .log-empty { font-size: 0.75rem; color: rgba(11,39,36,0.95); letter-spacing: 2px; text-align: center; padding: 1.5rem; font-family: 'Share Tech Mono', monospace; }
 
-    /* Toast */
     .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 0.8rem 1.5rem; background: rgba(2,8,18,0.95); border: 1px solid var(--neon); color: var(--neon); font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 2px; z-index: 1000; transform: translateX(120%); transition: transform 0.4s ease; box-shadow: 0 0 20px rgba(0,255,231,0.2); }
     .toast.show  { transform: translateX(0); }
     .toast.error { border-color: var(--danger); color: var(--danger); }
@@ -262,8 +225,24 @@ interface InspectionEvent {
         <div class="panel-title">// VISION FEED — REAL-TIME INSPECTION</div>
 
         <div class="camera-feed">
-          <video #videoEl autoplay muted playsinline [style.display]="camActive ? 'block' : 'none'"></video>
-          <canvas #canvasEl [style.display]="camActive ? 'block' : 'none'"></canvas>
+
+          <!--
+            MJPEG live stream — points directly at the Python FastAPI streamer.
+            The browser handles the multipart stream natively; no getUserMedia needed.
+            Hidden while camera is offline so the no-signal placeholder shows.
+          -->
+          @if (camActive) {
+            <img [src]="streamSafeUrl"
+                 alt="Live camera feed"
+                 (error)="onStreamError()"
+                 style="z-index:0" />
+          }
+
+          <!--
+            Hidden canvas — used ONLY to capture a single frame before inspection.
+            We draw a snapshot of the last MJPEG frame onto it via an offscreen fetch.
+          -->
+          <canvas #canvasEl></canvas>
 
           <!-- Scan sweep overlay -->
           <div class="scan-sweep" [class.active]="isScanning"></div>
@@ -278,9 +257,13 @@ interface InspectionEvent {
           @if (camActive && currentResult !== 'PENDING' && currentResult !== 'SCANNING') {
             <div class="detect-box"
                  [class.ok]="currentResult === 'OK'"
-                 [style.left]="detectBox.x + 'px'" [style.top]="detectBox.y + 'px'"
-                 [style.width]="detectBox.w + 'px'" [style.height]="detectBox.h + 'px'">
-              <div class="detect-label" [class.defect]="currentResult === 'DEFECT'" [class.ok]="currentResult === 'OK'">
+                 [style.left.px]="detectBox.x"
+                 [style.top.px]="detectBox.y"
+                 [style.width.px]="detectBox.w"
+                 [style.height.px]="detectBox.h">
+              <div class="detect-label"
+                   [class.defect]="currentResult === 'DEFECT'"
+                   [class.ok]="currentResult === 'OK'">
                 {{ currentResult === 'DEFECT' ? '⚠ DEFECT — PICK' : '✓ OK' }}
               </div>
             </div>
@@ -291,6 +274,13 @@ interface InspectionEvent {
             <div class="no-signal">
               <div class="no-signal-icon">📷</div>
               <span>NO CAMERA SIGNAL</span>
+            </div>
+          }
+
+          <!-- Python service offline warning -->
+          @if (serviceOffline) {
+            <div class="service-error">
+              ⚠ PYTHON VISION SERVICE OFFLINE — run: uvicorn vision_bridge_fastapi:app --port 5050
             </div>
           }
         </div>
@@ -316,17 +306,20 @@ interface InspectionEvent {
               <div class="conf-fill"
                    [class.ok]="currentResult === 'OK'"
                    [class.defect]="currentResult === 'DEFECT'"
-                   [style.width]="currentConfidence + '%'"></div>
+                   [style.width.%]="currentConfidence"></div>
             </div>
           </div>
         </div>
 
         <!-- Camera controls -->
         <div class="cam-controls">
-          <button class="cam-btn cam-start" (click)="startCamera()" [disabled]="camActive">▶ START CAMERA</button>
-          <button class="cam-btn cam-stop"  (click)="stopCamera()"  [disabled]="!camActive">■ STOP</button>
-          <button class="cam-btn cam-snap"  (click)="manualScan()"  [disabled]="!camActive">📸 SCAN NOW</button>
-          <button class="cam-btn cam-auto"  (click)="toggleAuto()"  [class.armed]="autoMode">
+          <button class="cam-btn cam-start" (click)="startCamera()"  [disabled]="camActive || isStarting">
+            {{ isStarting ? '⏳ STARTING...' : '▶ START CAMERA' }}
+          </button>
+          <button class="cam-btn cam-preset" (click)="savePreset()"  [disabled]="!camActive">💾 SAVE PRESET</button>
+          <button class="cam-btn cam-stop"   (click)="stopCamera()"  [disabled]="!camActive">■ STOP</button>
+          <button class="cam-btn cam-snap"   (click)="manualScan()"  [disabled]="!camActive || isScanning">📸 SCAN NOW</button>
+          <button class="cam-btn cam-auto"   (click)="toggleAuto()"  [class.armed]="autoMode" [disabled]="!camActive">
             {{ autoMode ? '⚡ AUTO-ON' : '⚡ AUTO' }}
           </button>
         </div>
@@ -360,58 +353,45 @@ interface InspectionEvent {
           <div class="gauge-label">Defect Rate</div>
           <div class="gauge-track">
             <div class="gauge-fill"
-                 [class.low]="defectRate < 20"
-                 [class.medium]="defectRate >= 20 && defectRate < 50"
-                 [class.high]="defectRate >= 50"
-                 [style.width]="defectRate + '%'"></div>
+                 [class.low]="defectRate < 10"
+                 [class.medium]="defectRate >= 10 && defectRate < 30"
+                 [class.high]="defectRate >= 30"
+                 [style.width.%]="defectRate"></div>
           </div>
           <div class="gauge-pct"
-               [style.color]="defectRate >= 50 ? 'var(--danger)' : defectRate >= 20 ? '#f0a500' : 'var(--neon)'">
-            {{ defectRate.toFixed(1) }}%
+               [style.color]="defectRate >= 30 ? 'var(--danger)' : defectRate >= 10 ? '#f0a500' : 'var(--neon)'">
+            {{ defectRate | number:'1.1-1' }}%
           </div>
         </div>
 
-        <!-- Arm pick status -->
-        <div class="arm-status-card"
-             [class.picking]="pickStatus === 'PICKING'"
-             [class.error]="pickStatus === 'ERROR'">
+        <!-- Robot arm pick status -->
+        <div class="arm-status-card" [class.picking]="pickStatus === 'PICKING'" [class.error]="pickStatus === 'ERROR'">
           <div class="arm-status-icon">🦾</div>
           <div class="arm-status-info">
             <div class="arm-status-lbl">ROBOT ARM — PICK STATUS</div>
-            <div class="arm-status-val"
-                 [class.idle]="pickStatus === 'IDLE'"
-                 [class.picking]="pickStatus === 'PICKING'"
-                 [class.picked]="pickStatus === 'PICKED'"
-                 [class.error]="pickStatus === 'ERROR'">
-              {{ pickStatus === 'IDLE'    ? '— IDLE / STANDBY'      :
-                 pickStatus === 'PICKING' ? '▶ PICKING DEFECT...'   :
-                 pickStatus === 'PICKED'  ? '✓ DEFECT REMOVED'       :
-                                            '✗ PICK ERROR' }}
+            <div class="arm-status-val" [class]="pickStatus.toLowerCase()">
+              — {{ pickStatus === 'IDLE' ? 'IDLE / STANDBY' : pickStatus === 'PICKING' ? 'EXECUTING PICK...' : pickStatus === 'PICKED' ? 'PICK COMPLETE' : 'ERROR' }}
             </div>
           </div>
         </div>
       </div>
 
-      <!-- RIGHT BOTTOM: EVENT LOG -->
+      <!-- RIGHT BOTTOM: INSPECTION LOG -->
       <div class="panel log-panel">
         <div class="panel-title">// INSPECTION LOG</div>
         <div class="log-list">
           @if (eventLog.length === 0) {
             <div class="log-empty">NO EVENTS YET</div>
           }
-          @for (e of eventLog; track e.id) {
+          @for (ev of eventLog; track ev.id) {
             <div class="log-item">
-              <div class="log-badge" [class.ok]="e.result === 'OK'" [class.defect]="e.result === 'DEFECT'">
-                {{ e.result }}
-              </div>
-              <div class="log-info">
-                {{ e.result === 'DEFECT' ? (e.defectType ?? 'SURFACE DEFECT') : 'PART OK' }}
-                — {{ e.confidence }}%
-              </div>
-              <div style="text-align:right;">
-                <div class="log-pick">{{ e.pickStatus === 'PICKED' ? '🤏' : e.pickStatus === 'PICKING' ? '⏳' : '' }}</div>
-                <div class="log-time">{{ e.time }}</div>
-              </div>
+              <span class="log-badge" [class.ok]="ev.result === 'OK'" [class.defect]="ev.result === 'DEFECT'">
+                {{ ev.result }}
+              </span>
+              <span class="log-info">
+                {{ ev.confidence }}% {{ ev.defectType ? '· ' + ev.defectType : '' }}
+              </span>
+              <span class="log-time">{{ ev.time }}</span>
             </div>
           }
         </div>
@@ -425,67 +405,65 @@ interface InspectionEvent {
 export class VisionInspectionComponent implements OnInit, OnDestroy {
 
   // ── State ──────────────────────────────────────────────────────────────────
-  camActive       = false;
-  isScanning      = false;
-  autoMode        = false;
-  currentResult:  InspectionResult = 'PENDING';
+  camActive         = false;
+  isStarting        = false;   // shows spinner on START CAMERA button
+  isScanning        = false;
+  autoMode          = false;
+  serviceOffline    = false;
+  currentResult:    InspectionResult = 'PENDING';
   currentConfidence = 0;
-  pickStatus:     PickStatus = 'IDLE';
+  pickStatus:       PickStatus = 'IDLE';
 
   totalScanned = 0;
   totalDefects = 0;
   totalPicks   = 0;
   get defectRate() { return this.totalScanned ? (this.totalDefects / this.totalScanned) * 100 : 0; }
 
-  eventLog: InspectionEvent[] = [];
-
-  detectBox = { x: 80, y: 60, w: 200, h: 180 };
+  eventLog:  InspectionEvent[] = [];
+  detectBox  = { x: 80, y: 60, w: 200, h: 180 };
 
   clock        = '';
   userName     = 'OPERATOR';
   userInitial  = 'O';
-  toastMsg     = ''; toastVisible = false; toastError = false;
+  toastMsg     = '';
+  toastVisible = false;
+  toastError   = false;
+
+  /**
+   * Sanitized safe URL for the MJPEG stream <img> tag.
+   * Angular blocks external URLs by default; DomSanitizer marks it trusted.
+   */
+  streamSafeUrl!: SafeUrl;
 
   // ── Private ────────────────────────────────────────────────────────────────
-  private stream:         MediaStream | null = null;
-  private clockInterval:  ReturnType<typeof setInterval> | null = null;
-  private autoInterval:   ReturnType<typeof setInterval> | null = null;
-  private userId:         string | null = null;
-  private eventIdCounter  = 0;
+  private clockInterval: ReturnType<typeof setInterval> | null = null;
+  private autoInterval:  ReturnType<typeof setInterval> | null = null;
+  private userId:        string | null = null;
+  private eventIdCounter = 0;
 
-  @ViewChild('videoEl') videoEl!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasEl') canvasEl!: ElementRef<HTMLCanvasElement>;
 
-  // Defect type labels for simulation / real classification
-  private readonly DEFECT_TYPES = [
-    'SCRATCH', 'CRACK', 'DENT', 'MISALIGNMENT', 'CORROSION', 'FOREIGN OBJECT'
-  ];
-
   constructor(
-    private auth:   AuthService,
-    private robot:  RobotService,
-    private router: Router,
-    private zone:   NgZone,
-  ) {}
+    private auth:      AuthService,
+    private robot:     RobotService,
+    private router:    Router,
+    private zone:      NgZone,
+    private sanitizer: DomSanitizer,
+  ) {
+    // Pre-sanitize the MJPEG stream URL once
+    this.streamSafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.robot.streamUrl);
+  }
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
   ngOnInit(): void {
-    const s         = this.auth.getSession();
-    this.userId     = s.userId;
-    this.userName   = (s.fullName || 'OPERATOR').toUpperCase();
+    const s          = this.auth.getSession();
+    this.userId      = s.userId;
+    this.userName    = (s.fullName || 'OPERATOR').toUpperCase();
     this.userInitial = this.userName.charAt(0);
 
     this.clockInterval = setInterval(() => {
       this.clock = new Date().toLocaleTimeString('en-US', { hour12: false }) + ' UTC';
     }, 1000);
-
-    // Check browser camera support
-    console.log('[VISION] Component initialized');
-    console.log('[VISION] Camera support:', !!navigator.mediaDevices?.getUserMedia);
-    setTimeout(() => {
-      console.log('[VISION] Video element ref:', this.videoEl);
-      console.log('[VISION] Canvas element ref:', this.canvasEl);
-    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -494,68 +472,101 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
     if (this.autoInterval)  clearInterval(this.autoInterval);
   }
 
-  // ── Camera ─────────────────────────────────────────────────────────────────
+  // ── Camera lifecycle ───────────────────────────────────────────────────────
+
+  /**
+   * 1. Call Spring Boot → Python to open the USB camera.
+   * 2. If successful, set camActive = true so the <img> tag appears and
+   *    starts receiving the MJPEG stream from Python.
+   */
   async startCamera(): Promise<void> {
-    try {
-      console.log('[VISION] Requesting camera access...');
-      
-      this.stream = await navigator.mediaDevices.getUserMedia({
-        video: { 
-          facingMode: 'environment', 
-          width: { ideal: 1280 }, 
-          height: { ideal: 720 } 
-        },
-        audio: false
-      });
-      
-      console.log('[VISION] Camera stream obtained:', this.stream);
-      
-      // Attach stream to video element using ViewChild
-      if (this.videoEl && this.videoEl.nativeElement) {
-        const video = this.videoEl.nativeElement;
-        video.srcObject = this.stream;
-        
-        // Wait for video to load metadata before playing
-        video.onloadedmetadata = () => {
-          console.log('[VISION] Video metadata loaded, started playing');
-          video.play().catch(err => {
-            console.error('[VISION] Play error:', err);
-            this.showToast('✗ CAMERA PLAY ERROR', true);
-          });
-        };
-        
-        video.onerror = (err) => {
-          console.error('[VISION] Video error:', err);
-          this.showToast('✗ CAMERA PLAYBACK ERROR', true);
-        };
-      } else {
-        console.warn('[VISION] Video element not found');
-        this.showToast('✗ VIDEO ELEMENT NOT FOUND', true);
-        return;
+    if (this.isStarting || this.camActive) return;
+    this.isStarting = true;
+    this.serviceOffline = false;
+
+    this.robot.startVisionCamera().subscribe({
+      next: () => {
+        this.zone.run(() => {
+          this.camActive  = true;
+          this.isStarting = false;
+          this.showToast('📷 CAMERA INITIALIZED');
+          console.log('[VISION] Camera started via Spring Boot → Python');
+        });
+      },
+      error: (err) => {
+        this.zone.run(() => {
+          this.isStarting     = false;
+          this.serviceOffline = true;
+          this.showToast('✗ VISION SERVICE OFFLINE', true);
+          console.error('[VISION] Camera start error:', err);
+        });
       }
-      
-      this.camActive = true;
-      console.log('[VISION] Camera activated successfully');
-      this.showToast('📷 CAMERA INITIALIZED');
-    } catch (err: any) {
-      console.error('[VISION] Camera access error:', err);
-      this.showToast('✗ CAMERA ACCESS DENIED: ' + err.name, true);
+    });
+  }
+
+  /**
+   * 1. Stop auto-mode.
+   * 2. Tell Spring Boot → Python to release the camera.
+   * 3. Clear local state so the <img> tag is removed from the DOM.
+   */
+  stopCamera(): void {
+    this.stopAutoMode();
+    this.camActive         = false;
+    this.isScanning        = false;
+    this.currentResult     = 'PENDING';
+    this.currentConfidence = 0;
+
+    this.robot.stopVisionCamera().subscribe({
+      next:  () => console.log('[VISION] Camera stopped'),
+      error: (e) => console.warn('[VISION] Camera stop (best-effort):', e),
+    });
+  }
+
+  onStreamError(): void {
+    if (this.camActive) {
+      this.serviceOffline = true;
+      this.showToast('⚠ STREAM LOST — CHECK PYTHON SERVICE', true);
     }
   }
 
-  stopCamera(): void {
-    if (this.stream) {
-      this.stream.getTracks().forEach(t => t.stop());
-      this.stream = null;
+  // ── Save preset ────────────────────────────────────────────────────────────
+
+  /**
+   * Capture a single JPEG frame from the MJPEG stream via a one-shot fetch
+   * to /stream (same endpoint, but we read just the first JPEG boundary).
+   * Then save it as a preset in the DB via Spring Boot.
+   */
+  savePreset(): void {
+    if (!this.camActive) {
+      this.showToast('⚠ START CAMERA FIRST', true);
+      return;
     }
-    this.camActive      = false;
-    this.isScanning     = false;
-    this.currentResult  = 'PENDING';
-    this.currentConfidence = 0;
-    this.stopAutoMode();
+    this.showToast('💾 CAPTURING FRAME...');
+
+    this.captureFrame().then(imageData => {
+      if (!imageData) {
+        this.showToast('⚠ COULD NOT CAPTURE FRAME', true);
+        return;
+      }
+      const ts         = new Date().toLocaleTimeString('en-US', { hour12: false }).replace(/:/g, '-');
+      const presetName = `Preset_${ts}`;
+      const userId     = this.userId ? parseInt(this.userId, 10) : 0;
+
+      this.robot.savePreset(imageData, presetName, userId).subscribe({
+        next:  (res) => this.zone.run(() => {
+          this.showToast(`✅ PRESET SAVED — ID #${res.presetId}`);
+          console.log('[VISION] Preset saved:', res);
+        }),
+        error: (err) => this.zone.run(() => {
+          this.showToast('❌ FAILED TO SAVE PRESET', true);
+          console.error('[VISION] Save preset error:', err);
+        }),
+      });
+    });
   }
 
   // ── Scan logic ─────────────────────────────────────────────────────────────
+
   manualScan(): void {
     if (!this.camActive || this.isScanning) return;
     this.runInspection();
@@ -579,72 +590,44 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
 
   /**
    * Core inspection pipeline:
-   * 1. Capture frame from video  →  canvas
-   * 2. Send to backend vision API (or simulate)
-   * 3. If DEFECT → dispatch pick command to robot arm
+   * 1. Capture a JPEG frame from the MJPEG stream (fetch → canvas → base64).
+   * 2. POST it to Spring Boot /inspect → Python FastAPI.
+   * 3. If DEFECT → trigger robot arm pick command.
    */
-  private runInspection(): void {
+  private async runInspection(): Promise<void> {
     if (!this.camActive || this.isScanning) return;
 
     this.isScanning    = true;
     this.currentResult = 'SCANNING';
 
-    // Capture frame to canvas
-    if (this.videoEl && this.canvasEl) {
-      const video  = this.videoEl.nativeElement;
-      const canvas = this.canvasEl.nativeElement;
-      
-      if (video.videoWidth > 0 && video.videoHeight > 0) {
-        canvas.width  = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(video, 0, 0);
-          console.log('[VISION] Frame captured: ' + canvas.width + 'x' + canvas.height);
-        }
-      } else {
-        console.warn('[VISION] Video not ready yet');
-        this.isScanning = false;
-        return;
-      }
-    }
-
-    // ── Call vision backend ──
-    const canvas = this.canvasEl?.nativeElement as HTMLCanvasElement;
-    const imageData = canvas?.toDataURL('image/jpeg') || '';
-    
+    const imageData = await this.captureFrame();
     if (!imageData) {
-      console.error('[VISION] Failed to capture image data');
-      this.isScanning = false;
+      this.zone.run(() => {
+        this.isScanning = false;
+        this.showToast('⚠ FRAME CAPTURE FAILED', true);
+      });
       return;
     }
-    
+
     this.robot.inspectVision(imageData).subscribe({
-      next: (result) => {
-        this.zone.run(() => this.handleInspectionResult(result));
-      },
-      error: (err) => {
-        this.zone.run(() => {
-          this.isScanning = false;
-          this.showToast('❌ VISION API ERROR');
-          console.error('Vision inspection failed:', err);
-        });
-      }
+      next:  (result) => this.zone.run(() => this.handleInspectionResult(result)),
+      error: (err)    => this.zone.run(() => {
+        this.isScanning = false;
+        this.showToast('❌ VISION API ERROR', true);
+        console.error('[VISION] Inspection failed:', err);
+      }),
     });
   }
 
   private handleInspectionResult(result: { isDefect: boolean; confidence: number; defectType?: string }): void {
-    // Parse real API response
-    const isDefect   = result.isDefect;
-    const confidence = result.confidence;
-    const defectType = result.defectType;
+    const { isDefect, confidence, defectType } = result;
 
     this.currentResult     = isDefect ? 'DEFECT' : 'OK';
     this.currentConfidence = confidence;
     this.isScanning        = false;
     this.totalScanned++;
 
-    // Randomise bounding box per scan for realism
+    // Randomise bounding box position for visual feedback
     this.detectBox = {
       x: 60  + Math.random() * 120,
       y: 40  + Math.random() * 100,
@@ -654,7 +637,7 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
 
     if (isDefect) {
       this.totalDefects++;
-      this.triggerPickSignal(defectType!);
+      this.triggerPickSignal(defectType ?? 'UNKNOWN');
     }
 
     this.logEvent(isDefect ? 'DEFECT' : 'OK', confidence, defectType);
@@ -665,25 +648,22 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
     this.pickStatus = 'PICKING';
     this.showToast(`🚨 DEFECT: ${defectType} — ARM DISPATCHED`);
 
-    // Send pick command to robot arm (PICK preset angles)
     this.robot.sendCommand({
-      userId:       this.userId ? parseInt(this.userId, 10) : null,
-      baseAngle:    90,
+      userId:        this.userId ? parseInt(this.userId, 10) : null,
+      baseAngle:     90,
       shoulderAngle: 45,
-      elbowAngle:   45,
-      gripperAngle: 90,
-      commandName:  'AUTO-PICK',
+      elbowAngle:    45,
+      gripperAngle:  90,
+      commandName:   'AUTO-PICK',
     }).subscribe({
       next: res => {
         this.pickStatus = res.success ? 'PICKED' : 'ERROR';
         if (res.success) {
           this.totalPicks++;
           this.showToast('✓ PICK COMPLETE — DEFECT REMOVED');
-          // Log pick status into last event
           if (this.eventLog.length) {
             this.eventLog[0] = { ...this.eventLog[0], pickStatus: 'PICKED' };
           }
-          // Return arm home after 1.5 s
           setTimeout(() => {
             this.pickStatus = 'IDLE';
             this.robot.sendCommand({
@@ -698,7 +678,102 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
         this.pickStatus = 'ERROR';
         this.showToast('✗ PICK COMMAND FAILED', true);
         setTimeout(() => this.pickStatus = 'IDLE', 2000);
+      },
+    });
+  }
+
+  // ── Frame capture helper ───────────────────────────────────────────────────
+
+  /**
+   * Fetches a single JPEG frame directly from the Python /stream endpoint
+   * and returns it as a base64 data-URL string.
+   *
+   * Strategy: fetch the MJPEG endpoint with a 2-second abort timeout,
+   * read the first JPEG boundary chunk, decode it, draw it to the hidden
+   * canvas, then export as JPEG base64.
+   *
+   * Fallback: if the browser fetch is blocked by CORS on the direct Python URL,
+   * Spring Boot can proxy /api/robot/vision/frame → Python /stream.
+   */
+  private async captureFrame(): Promise<string | null> {
+    try {
+      const controller = new AbortController();
+      const timeout    = setTimeout(() => controller.abort(), 2000);
+
+      // Fetch one JPEG frame from the Python streamer
+      const resp = await fetch(this.robot.streamUrl, {
+        signal: controller.signal,
+        cache:  'no-store',
+      });
+      clearTimeout(timeout);
+
+      // Read the raw bytes of the first multipart chunk
+      const reader = resp.body!.getReader();
+      let   chunks: Uint8Array[] = [];
+      let   total  = 0;
+      const MAX    = 400_000; // 400 KB — more than enough for one JPEG
+
+      while (total < MAX) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value);
+        total += value.length;
+
+        // Detect end of first JPEG (FFD9)
+        const combined = this.mergeChunks(chunks, total);
+        const soi = this.indexOfBytes(combined, [0xFF, 0xD8]);
+        const eoi = this.indexOfBytes(combined, [0xFF, 0xD9]);
+        if (soi !== -1 && eoi !== -1 && eoi > soi) {
+          reader.cancel();
+          const jpeg = combined.slice(soi, eoi + 2);
+          return await this.jpegToBase64(jpeg);
+        }
       }
+      reader.cancel();
+      return null;
+
+    } catch (err) {
+      console.error('[VISION] captureFrame error:', err);
+      return null;
+    }
+  }
+
+  private mergeChunks(chunks: Uint8Array[], total: number): Uint8Array {
+    const out = new Uint8Array(total);
+    let   off = 0;
+    for (const c of chunks) { out.set(c, off); off += c.length; }
+    return out;
+  }
+
+  private indexOfBytes(buf: Uint8Array, pattern: number[]): number {
+    outer: for (let i = 0; i <= buf.length - pattern.length; i++) {
+      for (let j = 0; j < pattern.length; j++) {
+        if (buf[i + j] !== pattern[j]) continue outer;
+      }
+      return i;
+    }
+    return -1;
+  }
+
+  private jpegToBase64(bytes: Uint8Array): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const canvas = this.canvasEl?.nativeElement;
+      if (!canvas) { reject('No canvas'); return; }
+
+      const standardBuffer = new Uint8Array(bytes).buffer;
+      const blob = new Blob([standardBuffer], { type: 'image/jpeg' });
+      const url  = URL.createObjectURL(blob);
+      const img  = new Image();
+      img.onload = () => {
+        canvas.width  = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+        resolve(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject('Image load failed'); };
+      img.src = url;
     });
   }
 
@@ -706,7 +781,7 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
   private logEvent(result: InspectionResult, confidence: number, defectType?: string): void {
     this.eventIdCounter++;
     const time = new Date().toLocaleTimeString('en-US', {
-      hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit'
+      hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit',
     } as Intl.DateTimeFormatOptions);
 
     this.eventLog.unshift({
@@ -720,7 +795,7 @@ export class VisionInspectionComponent implements OnInit, OnDestroy {
     if (this.eventLog.length > 50) this.eventLog.pop();
   }
 
-  // ── Navigation & UI helpers ────────────────────────────────────────────────
+  // ── Navigation & helpers ───────────────────────────────────────────────────
   goToDashboard(): void { this.router.navigate(['/dashboard']); }
   logout():        void { this.auth.logout(); this.router.navigate(['/']); }
 

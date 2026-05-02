@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RobotProvider()),
       ],
       child: MaterialApp(
-        title: 'ROBOT ARM CONTROLn',
+        title: 'ROBOT ARM CONTROL',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          brightness: Brightness.dark,
+          brightness: Brightness.light,
           primaryColor: const Color(0xFF1E40AF),
           scaffoldBackgroundColor: const Color(0xFFEBF3FC),
           textTheme: const TextTheme(
@@ -57,7 +57,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // Show Welcome Screen first, then check login status
         home: const WelcomeScreen(),
         routes: {
           '/login': (context) => const LoginScreen(),
